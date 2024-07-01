@@ -1,0 +1,77 @@
+{
+  "payment": [
+    {
+      "id": "b973",
+      "invoice_id": "456",
+      "method_id": "52",
+      "amount": "177",
+      "payment_date": "2024-05-29",
+      "payment_type": "Card",
+      "user_id": "ak561",
+      "age": "20",
+      "salary": "20000",
+      "id_proof": "4512 2665 3226",
+      "address": "Moti Masjid",
+      "pincode": "462001",
+      "city_id": "ah256",
+      "state_id": "lm23",
+      "country_id": "bn223",
+      "role_id": "cs211"
+    },
+    {
+      "id": "a453",
+      "invoice_id": "gh123",
+      "method_id": "jk5521",
+      "amount": "400",
+      "payment_date": "2021-05-29",
+      "payment_type": "Card",
+      "user_id": "ap561",
+      "age": "30",
+      "salary": "50000",
+      "id_proof": "4512 2865 3626",
+      "address": "Koh-e-Fiza",
+      "pincode": "462007",
+      "city_id": "ap256",
+      "state_id": "lm423",
+      "country_id": "bp223",
+      "role_id": "cs281"
+    },
+    {
+      "id": "b853",
+      "invoice_id": "hi562",
+      "method_id": "hn23",
+      "amount": "220",
+      "payment_date": "2024-05-85",
+      "payment_type": "UPI",
+      "user_id": "ao561",
+      "age": "28",
+      "salary": "25000",
+      "id_proof": "5112 2555 3556",
+      "address": "Shaymla Hills",
+      "pincode": "462004",
+      "city_id": "gg554",
+      "state_id": "hj556",
+      "country_id": "kj453",
+      "role_id": "cs225"
+    }
+  ],
+  "Paymethod":[
+    {
+      "id":"1",
+      "payment_type":"Card"
+    }
+  ],
+  "employee":[{
+    "user_id": "gh451",
+      "age": "20",
+      "salary": "123",
+      "id_proof": "2330",
+      "address": "jhjkkijil0",
+      "pincode": "456222100",
+      "city_id": "26265",
+      "state_id": "mp25",
+      "country_id": "in45",
+      "role_id": "cs450",
+      "id": "e3dc"
+  }]
+}
