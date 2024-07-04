@@ -1,15 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import { Input, Box, Button, Typography, Table, TableBody, TableCell, IconButton,TableContainer, TableHead, TableRow, Paper, FormControl, InputLabel, Modal } from '@mui/material';
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import NavBar from '../NavBar';
+import axios from "axios";
+import base_url from "../utils/API";
 
 function Tax(props) {
 
   const initialFormData = {
     tax_name: '',
-    tax_rate: '',
+    rate: '',
   };
 
   const [formData, setFormData] = useState(initialFormData);
@@ -17,6 +19,19 @@ function Tax(props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [editIndex, setEditIndex] = useState(null);
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const getData = async () => {
+    try {
+      const response = await axios.get(`${base_url}/client/api/tax/`);
+      setTableData(response.data);
+    } catch (err) {
+      console.error("Error fetching data:", err);
+    }
+  };
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -141,15 +156,15 @@ function Tax(props) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {tableData.map((row, index) => (
-              <TableRow key={index} sx={{ m: 5, height:'3',backgroundColor: '#fff', '&:hover': { backgroundColor: '#dcf0e7' } }}>
+            {tableData.map((row) => (
+              <TableRow key={row.tax_id} sx={{ m: 5, height:'3',backgroundColor: '#fff', '&:hover': { backgroundColor: '#dcf0e7' } }}>
                 <TableCell sx={{textAlign: 'center' }}>{row.tax_name}</TableCell>
-                <TableCell sx={{textAlign: 'center' }}>{row.tax_rate}</TableCell>
+                <TableCell sx={{textAlign: 'center' }}>{row.rate}%</TableCell>
                 <TableCell sx={{textAlign: 'center' }}>
-                  <IconButton onClick={() => handleEdit(index)} aria-label="edit" sx={{ color: 'grey' }}>
+                  <IconButton onClick={() => handleEdit(row.tax_id)} aria-label="edit" sx={{ color: 'grey' }}>
                     <EditIcon />
                   </IconButton>
-                  <IconButton onClick={() => handleDelete(index)} aria-label="delete" sx={{ color: 'red' }}>
+                  <IconButton onClick={() => handleDelete(row.tax_id)} aria-label="delete" sx={{ color: 'red' }}>
                     <DeleteIcon />
                   </IconButton>
                 </TableCell>

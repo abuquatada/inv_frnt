@@ -3,7 +3,6 @@ import { Input, Box, Button, Typography, Table, TableBody, TableCell, IconButton
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import NavBar from '../NavBar';
-
 function Project(props) {
 
   const initialFormData = {

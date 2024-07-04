@@ -1,3 +1,5 @@
+// 
+
 import React, { useState, useEffect } from "react";
 import {
   Input,
@@ -15,12 +17,14 @@ import {
   FormControl,
   InputLabel,
   Modal,
+  TextField,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import NavBar from "../NavBar";
 import axios from "axios";
 import base_url from "../utils/API";
+// import Search from '../components/Search';
 
 function Project(props) {
   const initialFormData = {
@@ -41,6 +45,7 @@ function Project(props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [currentClientId, setCurrentClientId] = useState(null);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     getData();
@@ -70,7 +75,8 @@ function Project(props) {
     try {
       await axios.patch(
         `${base_url}/client/client/?client_update=${client_id}`,
-        updateData);
+        updateData
+      );
       getData();
       alert("Client updated Successfully");
     } catch (err) {
@@ -154,7 +160,13 @@ function Project(props) {
   return (
     <Box sx={{ display: "block", p: 10, marginLeft: 30 }}>
       <NavBar />
-      <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+      {/* <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
+        <TextField
+          type="search"
+          placeholder="Enter the Client Id"
+          onChange={(e) => setSearch(e.target.value)}
+          sx={{ flexGrow: 1, mr: 2,}}
+        />
         <Button
           onClick={() => handleOpenModal()}
           size="medium"
@@ -167,9 +179,30 @@ function Project(props) {
           }}
         >
           ADD
+        </Button> */}
+        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <TextField
+          type="search"
+          placeholder="Enter the Client Name"
+          onChange={(e) => setSearch(e.target.value)}
+          variant="outlined"
+          sx={{ flex: 1, mr: 2, '& .MuiOutlinedInput-root': {height: '43px', width:780, borderRadius: 16 } }}
+        />
+        <Button
+          onClick={() => handleOpenModal()}
+          size="medium"
+          variant="contained"
+          sx={{
+            color: "white",
+            backgroundColor: "#123270",
+            borderRadius: 2,
+            height: '40px',
+            "&:hover": { color: "black", backgroundColor: "#53B789" },
+          }}
+        >
+          ADD
         </Button>
       </Box>
-
       <Modal
         open={isModalOpen}
         onClose={handleCloseModal}
@@ -311,55 +344,32 @@ function Project(props) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {tableData.map((row) => (
-              <TableRow
-                key={row.client_id}
-                sx={{
-                  m: 5,
-                  height: "3",
-                  backgroundColor: "#fff",
-                  "&:hover": { backgroundColor: "#dcf0e7" },
-                }}
-              >
-                <TableCell sx={{ textAlign: "center" }}>
-                  {row.client_name}
-                </TableCell>
-                <TableCell sx={{ textAlign: "center" }}>
-                  {row.user_id.user_name}
-                </TableCell>
-                <TableCell sx={{ textAlign: "center" }}>
-                  {row.user_id.first_name}
-                </TableCell>
-                <TableCell sx={{ textAlign: "center" }}>
-                  {row.user_id.last_name}
-                </TableCell>
-                <TableCell sx={{ textAlign: "center" }}>
-                  {row.user_id.email}
-                </TableCell>
-                <TableCell sx={{ textAlign: "center" }}>
-                  {row.user_id.contact}
-                </TableCell>
-                <TableCell sx={{ textAlign: "center" }}>
-                  {row.company_address}
-                </TableCell>
-                <TableCell sx={{ textAlign: "center" }}>
-                  <IconButton
-                    onClick={() => handleEdit(row)}
-                    aria-label="edit"
-                    sx={{ color: "grey" }}
-                  >
-                    <EditIcon />
-                  </IconButton>
-                  <IconButton
-                    onClick={() => handleDelete(row.client_id)}
-                    aria-label="delete"
-                    sx={{ color: "red" }}
-                  >
-                    <DeleteIcon />
-                  </IconButton>
-                </TableCell>
-              </TableRow>
-            ))}
+            {tableData && tableData
+              .filter((client) =>
+                client.client_name
+                  .toString()
+                  .toLowerCase()
+                  .includes(search.toLowerCase())
+              )
+              .map((client) => (
+                <TableRow key={client.client_id}>
+                  <TableCell>{client.client_name}</TableCell>
+                  <TableCell>{client.user_id.user_name}</TableCell>
+                  <TableCell>{client.user_id.first_name}</TableCell>
+                  <TableCell>{client.user_id.last_name}</TableCell>
+                  <TableCell>{client.user_id.email}</TableCell>
+                  <TableCell>{client.user_id.contact}</TableCell>
+                  <TableCell>{client.company_address}</TableCell>
+                  <TableCell >
+                    <IconButton onClick={() => handleEdit(client)} sx={{ color: "gray",}}>
+                      <EditIcon />
+                    </IconButton>
+                    <IconButton onClick={() => handleDelete(client.client_id)} sx={{ color: "red" }}>
+                      <DeleteIcon />
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>

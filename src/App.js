@@ -2,7 +2,6 @@ import React from 'react';
 import { Route,BrowserRouter,Routes } from 'react-router-dom';
 import Home from './NavPages/Home';
 import Sales from './NavPages/Sales';
-import Item from './NavPages/Item';
 import Purchase from './NavPages/Purchase';
 import Invoice from './NavPages/Invoice';
 import Client from './NavPages/Client';
@@ -20,7 +19,7 @@ function App(props) {
     <Routes>
       <Route path='/' element={<Home/>} />
       <Route path='/Sales' element={<Sales/>} />
-      <Route path='/Item' element={<Item/>} />
+      {/* <Route path='/Item' element={<Item/>} /> */}
       <Route path='/Purchase' element={<Purchase/>} />
       <Route path='/Invoice' element={<Invoice/>} />
       <Route path='/Client' element={<Client/>} />
@@ -40,17 +39,16 @@ export default App;
 
 export const routeNames = {
   HOME: '/',
-  SALES: '/Sales',
-  ITEM: '/Item',
-  PURCHASE: '/Purchase',
+  // SALES: '/Sales',
+  // PURCHASE: '/Purchase',
   INVOICE: '/Invoice',
   CLIENT: '/Client',
-  INVOICE_ITEM: '/InvoiceItem',
-  PAYMENT: '/Payment',
+  // INVOICE_ITEM: '/InvoiceItem',
+  // PAYMENT: '/Payment',
   PROJECT: '/Project',
-  TAX: '/Tax',
-  PAYMENT_METHOD: '/PayMethod',
-  EMPLOYEE: '/Employee',
+  // TAX: '/Tax',
+  // PAYMENT_METHOD: '/PayMethod',
+  // EMPLOYEE: '/Employee',
 }
 
 

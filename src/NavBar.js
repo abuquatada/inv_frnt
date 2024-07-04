@@ -24,10 +24,7 @@ import RedeemIcon from "@mui/icons-material/Redeem";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import SettingsSuggestOutlinedIcon from "@mui/icons-material/SettingsSuggestOutlined";
-import AppsOutlinedIcon from "@mui/icons-material/AppsOutlined";
 import Grid from "@mui/material/Grid";
 import Modal from "@mui/material/Modal";
 import AccountBalanceOutlinedIcon from "@mui/icons-material/AccountBalanceOutlined";
@@ -120,8 +117,29 @@ export default function NavBar() {
     setOpen(false);
   };
 
+  function toClient() {
+    navigate("/Client");
+  }
+  function toEmployee() {
+    navigate("/Employee");
+  }
+  function toProject() {
+    navigate("/Project");
+  }
+  function toInvoice() {
+    navigate("/Invoice");
+  }
   function toInvoiceItem() {
     navigate("/InvoiceItem");
+  }
+  function toPayment() {
+    navigate("/Payment");
+  }
+  function toPaymentMethod() {
+    navigate("/PayMethod");
+  }
+  function toTax() {
+    navigate("/Tax");
   }
 
   const handleModalOpen = () => {
@@ -150,7 +168,7 @@ export default function NavBar() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
-            INVOICE APP
+            INVOICE AND BILLING
           </Typography>
           <Button color="inherit" onClick={handleModalOpen}>
             <AddIcon />
@@ -158,18 +176,18 @@ export default function NavBar() {
           <Button color="inherit">
             <PersonOutlineOutlinedIcon />
           </Button>
-          <Button color="inherit">
+          {/* <Button color="inherit">
             <NotificationsNoneOutlinedIcon />
-          </Button>
-          <Button color="inherit">
+          </Button> */}
+          {/* <Button color="inherit">
             <AccountCircleOutlinedIcon />
-          </Button>
+          </Button> */}
           <Button color="inherit">
             <SettingsSuggestOutlinedIcon />
           </Button>
-          <Button color="inherit">
+          {/* <Button color="inherit">
             <AppsOutlinedIcon />
-          </Button>
+          </Button> */}
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>
@@ -209,7 +227,7 @@ export default function NavBar() {
               <ListItemText primary="Home" sx={{ opacity: open ? 1 : 0 }} />
             </ListItemButton>
           </ListItem>
-          <ListItem
+          {/* <ListItem
             disablePadding
             sx={{ display: "block" ,backgroundColor:
               location.pathname === routeNames.ITEM ? "#53B789" : "initial", }}
@@ -233,8 +251,8 @@ export default function NavBar() {
               </ListItemIcon>
               <ListItemText primary="Item" sx={{ opacity: open ? 1 : 0 }} />
             </ListItemButton>
-          </ListItem>
-          <ListItem
+          </ListItem> */}
+          {/* <ListItem
             disablePadding
             sx={{ display: "block" ,backgroundColor:
               location.pathname === routeNames.SALES ? "#53B789" : "initial",}}
@@ -258,8 +276,8 @@ export default function NavBar() {
               </ListItemIcon>
               <ListItemText primary="Sales" sx={{ opacity: open ? 1 : 0 }} />
             </ListItemButton>
-          </ListItem>
-          <ListItem
+          </ListItem> */}
+          {/* <ListItem
             disablePadding
             sx={{
               display: "block",
@@ -291,7 +309,7 @@ export default function NavBar() {
                 }}
               />
             </ListItemButton>
-          </ListItem>
+          </ListItem> */}
           <ListItem
             disablePadding
             sx={{ display: "block" ,backgroundColor:
@@ -342,7 +360,7 @@ export default function NavBar() {
               <ListItemText primary="Client" sx={{ opacity: open ? 1 : 0 }} />
             </ListItemButton>
           </ListItem>
-          <ListItem
+          {/* <ListItem
             disablePadding
             sx={{ display: "block" ,backgroundColor:
               location.pathname === routeNames.INVOICE_ITEM ? "#53B789" : "initial", }}
@@ -369,8 +387,8 @@ export default function NavBar() {
                 sx={{ opacity: open ? 1 : 0 }}
               />
             </ListItemButton>
-          </ListItem>
-          <ListItem
+          </ListItem> */}
+          {/* <ListItem
             disablePadding
             sx={{ display: "block" ,backgroundColor:
               location.pathname === routeNames.PAYMENT ? "#53B789" : "initial",}}
@@ -419,7 +437,7 @@ export default function NavBar() {
               </ListItemIcon>
               <ListItemText primary="Tax" sx={{ opacity: open ? 1 : 0 }} />
             </ListItemButton>
-          </ListItem>
+          </ListItem> */}
           <ListItem
             disablePadding
             sx={{ display: "block" ,backgroundColor:
@@ -445,7 +463,7 @@ export default function NavBar() {
               <ListItemText primary="Project" sx={{ opacity: open ? 1 : 0 }} />
             </ListItemButton>
           </ListItem>
-          <ListItem
+          {/* <ListItem
             disablePadding
             sx={{ display: "block" , backgroundColor:
               location.pathname === routeNames.PAYMENT_METHOD ? "#53B789" : "initial", }}
@@ -472,8 +490,8 @@ export default function NavBar() {
                 sx={{ opacity: open ? 1 : 0 }}
               />
             </ListItemButton>
-          </ListItem>
-          <ListItem
+          </ListItem> */}
+          {/* <ListItem
             disablePadding
             sx={{ display: "block" , backgroundColor:
               location.pathname === routeNames.EMPLOYEE ? "#53B789" : "initial", }}
@@ -497,7 +515,7 @@ export default function NavBar() {
               </ListItemIcon>
               <ListItemText primary="Employee" sx={{ opacity: open ? 1 : 0 }} />
             </ListItemButton>
-          </ListItem>
+          </ListItem> */}
         </List>
         <Divider />
       </Drawer>
@@ -529,28 +547,73 @@ export default function NavBar() {
               </Typography>
               <ul>
                 <br />
-                <li>+ Add Users</li>
-                <br />
                 <li>
                   <Button
-                    onClick={toInvoiceItem}
+                    onClick={toClient}
                     sx={{
                       color: "black",
                       "&:hover": {
-                        color: "#123270",
+                        color: "white",
                         backgroundColor: "#53B789",
                       },
                     }}
                   >
-                    + Item
+                    + Client
                   </Button>
                 </li>
                 <br />
-                <li>+ Inventory Adjustments</li>
+                <li><Button
+                    onClick={toEmployee}
+                    sx={{
+                      color: "black",
+                      "&:hover": {
+                        color: "white",
+                        backgroundColor: "#53B789",
+                      },
+                    }}
+                  >
+                    + Employee
+                  </Button></li>
+                
                 <br />
-                <li>+ Journal Entry</li>
+                <li> <Button
+                    onClick={toProject}
+                    sx={{
+                      color: "black",
+                      "&:hover": {
+                        color: "white",
+                        backgroundColor: "#53B789",
+                      },
+                    }}
+                  >
+                    + Project
+                  </Button></li>
                 <br />
-                <li>+ Log Time</li>
+                <li> <Button
+                    
+                    sx={{
+                      color: "black",
+                      "&:hover": {
+                        color: "white",
+                        backgroundColor: "#53B789",
+                      },
+                    }}
+                  >
+                    + Technology
+                  </Button></li>
+                <br />
+                <li> <Button
+                    
+                    sx={{
+                      color: "black",
+                      "&:hover": {
+                        color: "white",
+                        backgroundColor: "#53B789",
+                      },
+                    }}
+                  >
+                    + Technology Options
+                  </Button></li>
                 <br />
                 <li>+ Weekly Log</li>
               </ul>
@@ -561,9 +624,31 @@ export default function NavBar() {
               </Typography>
               <ul>
                 <br />
-                <li>+ Customer</li>
+                <li><Button
+                    onClick={toInvoice}
+                    sx={{
+                      color: "black",
+                      "&:hover": {
+                        color: "white",
+                        backgroundColor: "#53B789",
+                      },
+                    }}
+                  >
+                    + Invoice
+                  </Button></li>
                 <br />
-                <li>+ Quotes</li>
+                <li><Button
+                    onClick={toInvoiceItem}
+                    sx={{
+                      color: "black",
+                      "&:hover": {
+                        color: "white",
+                        backgroundColor: "#53B789",
+                      },
+                    }}
+                  >
+                    + Invoive Item
+                  </Button></li>
                 <br />
                 <li>+ Delivery Challan</li>
                 <br />
@@ -585,11 +670,44 @@ export default function NavBar() {
               </Typography>
               <ul>
                 <br />
-                <li>+ Vendor</li>
+                <li><Button
+                    onClick={toPayment}
+                    sx={{
+                      color: "black",
+                      "&:hover": {
+                        color: "white",
+                        backgroundColor: "#53B789",
+                      },
+                    }}
+                  >
+                    + Payment
+                  </Button></li>
                 <br />
-                <li>+ Expenses</li>
+                <li><Button
+                    onClick={toPaymentMethod}
+                    sx={{
+                      color: "black",
+                      "&:hover": {
+                        color: "white",
+                        backgroundColor: "#53B789",
+                      },
+                    }}
+                  >
+                    + Payment Method
+                  </Button></li>
                 <br />
-                <li>+ Recurring Expense</li>
+                <li><Button
+                    onClick={toTax}
+                    sx={{
+                      color: "black",
+                      "&:hover": {
+                        color: "white",
+                        backgroundColor: "#53B789",
+                      },
+                    }}
+                  >
+                    + Tax
+                  </Button></li>
                 <br />
                 <li>+ Bills</li>
                 <br />
