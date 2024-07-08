@@ -1,17 +1,20 @@
 import React, { useState ,useEffect} from 'react';
 import { Input, Box, Button, Typography, Table, TableBody, TableCell, IconButton,TableContainer, TableHead, TableRow, Paper, FormControl, InputLabel, Modal } from '@mui/material';
-import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
+// import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import NavBar from '../NavBar';
+// import Navbar from '../Navbar';
+import NavBar from "../NavBar";
 import axios from "axios";
 import base_url from "../utils/API";
 
-function Tax(props) {
+
+function Tech(props) {
 
   const initialFormData = {
-    tax_name: '',
-    rate: '',
+    tech_id:'',
+    tech_name: '',
+    opt_id: ''
   };
 
   const [formData, setFormData] = useState(initialFormData);
@@ -26,9 +29,11 @@ function Tax(props) {
 
   const getData = async () => {
     try {
-      const response = await axios.get(`${base_url}/client/api/tax/`);
+      const response = await axios.get(`${base_url}/client/api/technology/`);
+      console.log(response.data);
       setTableData(response.data);
     } catch (err) {
+      console.log(err);
       console.error("Error fetching data:", err);
     }
   };
@@ -81,14 +86,20 @@ function Tax(props) {
 
   return (
     <Box sx={{ display: 'block', p: 10, marginLeft:30 }}>
-      <NavBar />
+      <NavBar/>
       <Box sx={{display:'flex', justifyContent:'flex-end'}}>
         <Button
           
           onClick={handleOpenModal}
           size='medium'
           variant='contained'
-          sx={{ color: 'white', backgroundColor: '#123270', borderRadius: 2, '&:hover': { color: 'black', backgroundColor: '#53B789' ,} }}
+          sx={{
+            color: "white",
+            backgroundColor: "#123270",
+            borderRadius: 2,
+            height: '40px',
+            "&:hover": { color: "black", backgroundColor: "#53B789" },
+          }}
         >
           ADD
         </Button>
@@ -115,23 +126,33 @@ function Tax(props) {
           }}
         >
           <Typography id="modal-title" variant="h6" component="h2">
-            {editMode ? 'Edit Tax' : 'Add Tax'}
+            {editMode ? 'Edit Tax' : 'Add Tech'}
           </Typography>
           <FormControl fullWidth margin="normal">
-            <InputLabel htmlFor="tax-name">Tax Name</InputLabel>
+            <InputLabel htmlFor="tech-id">Tech ID</InputLabel>
             <Input
-              id="tax-name"
-              name="tax_name"
-              value={formData.tax_name}
+              id="tech-id"
+              name="tech_id"
+              value={formData.tech_id}
+              onChange={handleChange}
+            />
+          </FormControl>
+
+          <FormControl fullWidth margin="normal">
+            <InputLabel htmlFor="tech-name">Tech Name</InputLabel>
+            <Input
+              id="tech-name"
+              name="tech_name"
+              value={formData.tech_name}
               onChange={handleChange}
             />
           </FormControl>
           <FormControl fullWidth margin="normal">
-            <InputLabel htmlFor="tax-rate">Tax Rate</InputLabel>
+            <InputLabel htmlFor="opt-id">Option ID</InputLabel>
             <Input
-              id="tax-rate"
-              name="tax_rate"
-              value={formData.tax_rate}
+              id="opt-id"
+              name="opt_id"
+              value={formData.opt_id}
               onChange={handleChange}
             />
           </FormControl>
@@ -146,25 +167,29 @@ function Tax(props) {
         </Box>
       </Modal>
 
-      <TableContainer component={Paper} sx={{ marginTop: 5,}}>
+      <TableContainer component={Paper} sx={{marginTop: 5,}}>
         <Table>
           <TableHead sx={{ m: 5, backgroundColor: '#53B789'}}>
             <TableRow>
-              <TableCell sx={{ color: 'white', textAlign: 'center' }}>Tax Name</TableCell>
-              <TableCell sx={{ color: 'white', textAlign: 'center' }}>Tax Rate</TableCell>
+              <TableCell sx={{ color: 'white', textAlign: 'center' }}>Tech ID</TableCell>
+              <TableCell sx={{ color: 'white', textAlign: 'center' }}>Tech Name</TableCell>
+              <TableCell sx={{ color: 'white', textAlign: 'center' }}>Option ID</TableCell>
+
               <TableCell sx={{ color: 'white', textAlign: 'center' }}>Action</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {tableData.map((row) => (
-              <TableRow key={row.tax_id} sx={{ m: 5, height:'3',backgroundColor: '#fff', '&:hover': { backgroundColor: '#dcf0e7' } }}>
-                <TableCell sx={{textAlign: 'center' }}>{row.tax_name}</TableCell>
-                <TableCell sx={{textAlign: 'center' }}>{row.rate}%</TableCell>
+            {tableData.map((row, index) => (
+              <TableRow key={index} sx={{ m: 5, height:'3',backgroundColor: '#fff', '&:hover': { backgroundColor: '#dcf0e7' } }}>
+                <TableCell sx={{textAlign: 'center' }}>{row.tech_id}</TableCell>
+                <TableCell sx={{textAlign: 'center' }}>{row.name}</TableCell>
+                <TableCell sx={{textAlign: 'center' }}>{row.option_name}</TableCell>
+
                 <TableCell sx={{textAlign: 'center' }}>
-                  <IconButton onClick={() => handleEdit(row.tax_id)} aria-label="edit" sx={{ color: 'grey' }}>
+                  <IconButton onClick={() => handleEdit(index)} aria-label="edit" sx={{ color: 'grey' }}>
                     <EditIcon />
                   </IconButton>
-                  <IconButton onClick={() => handleDelete(row.tax_id)} aria-label="delete" sx={{ color: 'red' }}>
+                  <IconButton onClick={() => handleDelete(index)} aria-label="delete" sx={{ color: 'red' }}>
                     <DeleteIcon />
                   </IconButton>
                 </TableCell>
@@ -178,4 +203,4 @@ function Tax(props) {
   );
 }
 
-export default Tax;
+export default Tech;

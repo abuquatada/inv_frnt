@@ -153,8 +153,9 @@ function Home(props) {
             ]}
             layout={{
               title: "Pie chart",
-              width: 800,
-              height: 450,
+              width: 850,
+              height: 500,
+              margin: { l: 50, r: 50, b: 100, t: 120 },
             }}
           />
         </Box>

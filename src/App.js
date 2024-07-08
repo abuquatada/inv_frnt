@@ -11,6 +11,8 @@ import Project from './NavPages/Project';
 import Tax from './NavPages/Tax';
 import PaymentMethod from './NavPages/PaymentMethod';
 import Employee from './NavPages/Employee';
+import Technology from './NavPages/Technology';
+import TechnologyOption from './NavPages/TechnologyOption';
 
 
 function App(props) {
@@ -26,6 +28,8 @@ function App(props) {
       <Route path='/InvoiceItem' element={<InvoiceItem/>} />
       <Route path='/Payment/*' element={<Payment/>}/>
       <Route path='/Project' element={<Project/>}/>
+      <Route path='/Technology' element={<Technology/>}/>
+      <Route path='/TechnologyOption' element={<TechnologyOption/>}/>
       <Route path='/Tax' element={<Tax/>}/>
       <Route path='/Payment/*' element={<Payment/>}/>
       <Route path='/PayMethod/*' element={<PaymentMethod/>}/>

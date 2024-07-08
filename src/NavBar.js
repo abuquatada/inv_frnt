@@ -141,6 +141,12 @@ export default function NavBar() {
   function toTax() {
     navigate("/Tax");
   }
+  function toTechOption() {
+    navigate("/TechnologyOption");
+  }
+  function toTech() {
+    navigate("/Technology");
+  }
 
   const handleModalOpen = () => {
     setModalOpen(true);
@@ -204,8 +210,11 @@ export default function NavBar() {
         <List>
           <ListItem
             disablePadding
-            sx={{ display: "block",backgroundColor:
-              location.pathname === routeNames.HOME ? "#53B789" : "initial",}}
+            sx={{
+              display: "block",
+              backgroundColor:
+                location.pathname === routeNames.HOME ? "#53B789" : "initial",
+            }}
             onClick={() => navigate("/")}
           >
             <ListItemButton
@@ -312,8 +321,13 @@ export default function NavBar() {
           </ListItem> */}
           <ListItem
             disablePadding
-            sx={{ display: "block" ,backgroundColor:
-              location.pathname === routeNames.INVOICE ? "#53B789" : "initial",}}
+            sx={{
+              display: "block",
+              backgroundColor:
+                location.pathname === routeNames.INVOICE
+                  ? "#53B789"
+                  : "initial",
+            }}
             onClick={() => navigate("/Invoice")}
           >
             <ListItemButton
@@ -337,8 +351,11 @@ export default function NavBar() {
           </ListItem>
           <ListItem
             disablePadding
-            sx={{ display: "block",backgroundColor:
-              location.pathname === routeNames.CLIENT ? "#53B789" : "initial", }}
+            sx={{
+              display: "block",
+              backgroundColor:
+                location.pathname === routeNames.CLIENT ? "#53B789" : "initial",
+            }}
             onClick={() => navigate("/Client")}
           >
             <ListItemButton
@@ -440,8 +457,13 @@ export default function NavBar() {
           </ListItem> */}
           <ListItem
             disablePadding
-            sx={{ display: "block" ,backgroundColor:
-              location.pathname === routeNames.PROJECT ? "#53B789" : "initial",}}
+            sx={{
+              display: "block",
+              backgroundColor:
+                location.pathname === routeNames.PROJECT
+                  ? "#53B789"
+                  : "initial",
+            }}
             onClick={() => navigate("/Project")}
           >
             <ListItemButton
@@ -531,8 +553,8 @@ export default function NavBar() {
             top: "55%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            width: 900,
-            height: 465,
+            width: 950,
+            height: 400,
             bgcolor: "background.paper",
             border: "1px solid #000",
             borderRadius: 3,
@@ -540,7 +562,7 @@ export default function NavBar() {
             boxShadow: 24,
           }}
         >
-          <Grid container spacing={2}>
+          <Grid container spacing={3}>
             <Grid item xs={3}>
               <Typography variant="h8">
                 <GridViewOutlinedIcon /> GENERAL
@@ -562,7 +584,8 @@ export default function NavBar() {
                   </Button>
                 </li>
                 <br />
-                <li><Button
+                <li>
+                  <Button
                     onClick={toEmployee}
                     sx={{
                       color: "black",
@@ -573,10 +596,13 @@ export default function NavBar() {
                     }}
                   >
                     + Employee
-                  </Button></li>
-                
+                  </Button>
+                </li>
+
                 <br />
-                <li> <Button
+                <li>
+                  {" "}
+                  <Button
                     onClick={toProject}
                     sx={{
                       color: "black",
@@ -587,10 +613,13 @@ export default function NavBar() {
                     }}
                   >
                     + Project
-                  </Button></li>
+                  </Button>
+                </li>
                 <br />
-                <li> <Button
-                    
+                <li>
+                  {" "}
+                  <Button
+                    onClick={toTech}
                     sx={{
                       color: "black",
                       "&:hover": {
@@ -600,10 +629,13 @@ export default function NavBar() {
                     }}
                   >
                     + Technology
-                  </Button></li>
+                  </Button>
+                </li>
                 <br />
-                <li> <Button
-                    
+                <li>
+                  {" "}
+                  <Button
+                    onClick={toTechOption}
                     sx={{
                       color: "black",
                       "&:hover": {
@@ -613,18 +645,20 @@ export default function NavBar() {
                     }}
                   >
                     + Technology Options
-                  </Button></li>
+                  </Button>
+                </li>
                 <br />
-                <li>+ Weekly Log</li>
+                {/* <li>+ Weekly Log</li> */}
               </ul>
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={3} sx={{ marginLeft: 6 }}>
               <Typography variant="h8">
                 <ShoppingCartOutlinedIcon /> SALES
               </Typography>
               <ul>
                 <br />
-                <li><Button
+                <li>
+                  <Button
                     onClick={toInvoice}
                     sx={{
                       color: "black",
@@ -635,9 +669,11 @@ export default function NavBar() {
                     }}
                   >
                     + Invoice
-                  </Button></li>
+                  </Button>
+                </li>
                 <br />
-                <li><Button
+                <li>
+                  <Button
                     onClick={toInvoiceItem}
                     sx={{
                       color: "black",
@@ -648,8 +684,9 @@ export default function NavBar() {
                     }}
                   >
                     + Invoive Item
-                  </Button></li>
-                <br />
+                  </Button>
+                </li>
+                {/* <br />
                 <li>+ Delivery Challan</li>
                 <br />
                 <li>+ Invoices</li>
@@ -660,17 +697,18 @@ export default function NavBar() {
                 <br />
                 <li>+ Sales Order</li>
                 <br />
-                <li>+ Customer Payment</li>
-                <li>+ Credit Notes</li>
+                <li>+ Customer Payment</li> */}
+                {/* <li>+ Credit Notes</li> */}
               </ul>
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={3} sx={{ marginLeft: 6 }}>
               <Typography variant="h8">
-                <ShoppingBagOutlinedIcon /> PURCHASES
+                <AccountBalanceOutlinedIcon /> BANKING
               </Typography>
               <ul>
                 <br />
-                <li><Button
+                <li>
+                  <Button
                     onClick={toPayment}
                     sx={{
                       color: "black",
@@ -681,9 +719,11 @@ export default function NavBar() {
                     }}
                   >
                     + Payment
-                  </Button></li>
+                  </Button>
+                </li>
                 <br />
-                <li><Button
+                <li>
+                  <Button
                     onClick={toPaymentMethod}
                     sx={{
                       color: "black",
@@ -694,9 +734,11 @@ export default function NavBar() {
                     }}
                   >
                     + Payment Method
-                  </Button></li>
+                  </Button>
+                </li>
                 <br />
-                <li><Button
+                <li>
+                  <Button
                     onClick={toTax}
                     sx={{
                       color: "black",
@@ -707,22 +749,24 @@ export default function NavBar() {
                     }}
                   >
                     + Tax
-                  </Button></li>
+                  </Button>
+                </li>
                 <br />
+                {/* <br />
                 <li>+ Bills</li>
                 <br />
                 <li>+ Recurring Bills</li>
                 <br />
                 <li>+ Purchase Orders</li>
                 <br />
-                <li>+ Vendor Payment</li>
+                <li>+ Vendor Payment</li> */}
                 <br />
-                <li>+ Vendor Credits</li>
+                {/* <li>+ Vendor Credits</li> */}
               </ul>
             </Grid>
-            <Grid item xs={3}>
+            {/* <Grid item xs={3}>
               <Typography variant="h8">
-                <AccountBalanceOutlinedIcon /> BANKING
+              <ShoppingBagOutlinedIcon /> PURCHASES
               </Typography>
               <ul>
                 <br />
@@ -738,7 +782,7 @@ export default function NavBar() {
                   <Link to={"/Payment/"}>+ Payment</Link>
                 </li>
               </ul>
-            </Grid>
+            </Grid> */}
           </Grid>
         </Box>
       </Modal>

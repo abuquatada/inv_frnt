@@ -1,17 +1,18 @@
-import React, { useState ,useEffect} from 'react';
+import React, { useState } from 'react';
 import { Input, Box, Button, Typography, Table, TableBody, TableCell, IconButton,TableContainer, TableHead, TableRow, Paper, FormControl, InputLabel, Modal } from '@mui/material';
-import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
+// import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import NavBar from '../NavBar';
-import axios from "axios";
-import base_url from "../utils/API";
+import { FaTableColumns } from 'react-icons/fa6';
+// import Navbar from '../Navbar';
 
-function Tax(props) {
+function Team(props) {
 
   const initialFormData = {
-    tax_name: '',
-    rate: '',
+    
+    team_id: '',
+    team_name:'',
+    
   };
 
   const [formData, setFormData] = useState(initialFormData);
@@ -19,19 +20,6 @@ function Tax(props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [editIndex, setEditIndex] = useState(null);
-
-  useEffect(() => {
-    getData();
-  }, []);
-
-  const getData = async () => {
-    try {
-      const response = await axios.get(`${base_url}/client/api/tax/`);
-      setTableData(response.data);
-    } catch (err) {
-      console.error("Error fetching data:", err);
-    }
-  };
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -54,6 +42,7 @@ function Tax(props) {
   };
 
   const handleSubmit = () => {
+
     if (editMode) {
       
       const updatedData = [...tableData];
@@ -81,14 +70,14 @@ function Tax(props) {
 
   return (
     <Box sx={{ display: 'block', p: 10, marginLeft:30 }}>
-      <NavBar />
+      
       <Box sx={{display:'flex', justifyContent:'flex-end'}}>
         <Button
           
           onClick={handleOpenModal}
           size='medium'
           variant='contained'
-          sx={{ color: 'white', backgroundColor: '#123270', borderRadius: 2, '&:hover': { color: 'black', backgroundColor: '#53B789' ,} }}
+          sx={{ color: 'white', backgroundColor: '#01579b', borderRadius: 2, '&:hover': { color: 'black', backgroundColor: '#90caf9' ,} }}
         >
           ADD
         </Button>
@@ -115,26 +104,30 @@ function Tax(props) {
           }}
         >
           <Typography id="modal-title" variant="h6" component="h2">
-            {editMode ? 'Edit Tax' : 'Add Tax'}
+            {editMode ? 'Edit Tax' : 'Add Tech'}
           </Typography>
           <FormControl fullWidth margin="normal">
-            <InputLabel htmlFor="tax-name">Tax Name</InputLabel>
+            <InputLabel htmlFor="tem-id">Team ID</InputLabel>
             <Input
-              id="tax-name"
-              name="tax_name"
-              value={formData.tax_name}
+              id="tem-id"
+              name="team_id"
+              value={formData.team_id}
               onChange={handleChange}
             />
           </FormControl>
+
+
           <FormControl fullWidth margin="normal">
-            <InputLabel htmlFor="tax-rate">Tax Rate</InputLabel>
+            <InputLabel htmlFor="team-name">Team Name</InputLabel>
             <Input
-              id="tax-rate"
-              name="tax_rate"
-              value={formData.tax_rate}
+              id="team-name"
+              name="team_name"
+              value={formData.team_name}
               onChange={handleChange}
             />
           </FormControl>
+
+         
           <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
             <Button variant="contained" color="success" onClick={handleSubmit}>
               {editMode ? 'Update' : 'Save'}
@@ -146,25 +139,28 @@ function Tax(props) {
         </Box>
       </Modal>
 
-      <TableContainer component={Paper} sx={{ marginTop: 5,}}>
+      <TableContainer component={Paper} sx={{maxHeight:'100vh', marginTop: 5,}}>
         <Table>
-          <TableHead sx={{ m: 5, backgroundColor: '#53B789'}}>
+          <TableHead sx={{ m: 5, backgroundColor: '#0097a7'}}>
             <TableRow>
-              <TableCell sx={{ color: 'white', textAlign: 'center' }}>Tax Name</TableCell>
-              <TableCell sx={{ color: 'white', textAlign: 'center' }}>Tax Rate</TableCell>
+              <TableCell sx={{ color: 'white', textAlign: 'center' }}>Team ID</TableCell>
+              <TableCell sx={{ color: 'white', textAlign: 'center' }}> Team Name</TableCell>
+
               <TableCell sx={{ color: 'white', textAlign: 'center' }}>Action</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {tableData.map((row) => (
-              <TableRow key={row.tax_id} sx={{ m: 5, height:'3',backgroundColor: '#fff', '&:hover': { backgroundColor: '#dcf0e7' } }}>
-                <TableCell sx={{textAlign: 'center' }}>{row.tax_name}</TableCell>
-                <TableCell sx={{textAlign: 'center' }}>{row.rate}%</TableCell>
+            {tableData.map((row, index) => (
+              <TableRow key={index} sx={{ m: 5, height:'3',backgroundColor: '#fff', '&:hover': { backgroundColor: '#e0f7fa' } }}>
+                <TableCell sx={{textAlign: 'center' }}>{row.team_id}</TableCell>
+                <TableCell sx={{textAlign: 'center' }}>{row.team_name}</TableCell>
+
+
                 <TableCell sx={{textAlign: 'center' }}>
-                  <IconButton onClick={() => handleEdit(row.tax_id)} aria-label="edit" sx={{ color: 'grey' }}>
+                  <IconButton onClick={() => handleEdit(index)} aria-label="edit" sx={{ color: 'grey' }}>
                     <EditIcon />
                   </IconButton>
-                  <IconButton onClick={() => handleDelete(row.tax_id)} aria-label="delete" sx={{ color: 'red' }}>
+                  <IconButton onClick={() => handleDelete(index)} aria-label="delete" sx={{ color: 'red' }}>
                     <DeleteIcon />
                   </IconButton>
                 </TableCell>
@@ -178,4 +174,4 @@ function Tax(props) {
   );
 }
 
-export default Tax;
+export default Team;

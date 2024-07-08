@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect} from 'react';
 import { Input, Box, Button, Typography, Table, TableBody, TableCell, IconButton,TableContainer, TableHead, TableRow, Paper, FormControl, InputLabel, Modal } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import NavBar from '../NavBar';
-
+import axios from "axios";
+import base_url from "../utils/API";
 function Project(props) {
 
   const initialFormData = {
@@ -19,6 +20,20 @@ function Project(props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [editIndex, setEditIndex] = useState(null);
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const getData = async () => {
+    try {
+      const response = await axios.get(`${base_url}/client/project/`);
+      setTableData(response.data);
+      console.log(response.data,'#$%^##');
+    } catch (err) {
+      console.error("Error fetching data:", err);
+    }
+  };
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
