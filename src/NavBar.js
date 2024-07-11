@@ -36,8 +36,7 @@ import AddCardIcon from "@mui/icons-material/AddCard";
 import BadgeIcon from "@mui/icons-material/Badge";
 import { routeNames } from "./Base";
 import { useAuth } from "./auth";
-import LogoutIcon from '@mui/icons-material/Logout';
-
+import LogoutIcon from "@mui/icons-material/Logout";
 
 const drawerWidth = 240;
 
@@ -111,11 +110,11 @@ export default function NavBar() {
   const [open, setOpen] = React.useState(true);
   const [modalOpen, setModalOpen] = React.useState(false);
   const location = useLocation();
-  const { clearTokens } = useAuth()
+  const { clearTokens } = useAuth();
 
   const Logout = () => {
     clearTokens();
-    navigate('/')
+    navigate("/");
   };
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -187,24 +186,10 @@ export default function NavBar() {
           <Button color="inherit" onClick={handleModalOpen}>
             <AddIcon />
           </Button>
-          {/* <Button color="inherit">
-            <PersonOutlineOutlinedIcon />
-          </Button> */}
-          {/* <Button color="inherit">
-            <NotificationsNoneOutlinedIcon />
-          </Button> */}
-          {/* <Button color="inherit">
-            <AccountCircleOutlinedIcon />
-          </Button> */}
-          {/* <Button color="inherit">
-            <SettingsSuggestOutlinedIcon />
-          </Button> */}
-          {/* <Button color="inherit">
-            <AppsOutlinedIcon />
-          </Button> */}
-              <Button color="inherit" onClick={Logout}>
-                <LogoutIcon/>
-              </Button>
+
+          <Button color="inherit" onClick={Logout}>
+            <LogoutIcon />
+          </Button>
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>
@@ -247,89 +232,7 @@ export default function NavBar() {
               <ListItemText primary="Home" sx={{ opacity: open ? 1 : 0 }} />
             </ListItemButton>
           </ListItem>
-          {/* <ListItem
-            disablePadding
-            sx={{ display: "block" ,backgroundColor:
-              location.pathname === routeNames.ITEM ? "#53B789" : "initial", }}
-            onClick={() => navigate("/Item")}
-          >
-            <ListItemButton
-              sx={{
-                minHeight: 48,
-                justifyContent: open ? "initial" : "center",
-                px: 2.5,
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : "auto",
-                  justifyContent: "center",
-                }}
-              >
-                <Shop2Icon />
-              </ListItemIcon>
-              <ListItemText primary="Item" sx={{ opacity: open ? 1 : 0 }} />
-            </ListItemButton>
-          </ListItem> */}
-          {/* <ListItem
-            disablePadding
-            sx={{ display: "block" ,backgroundColor:
-              location.pathname === routeNames.SALES ? "#53B789" : "initial",}}
-            onClick={() => navigate("/Sales")}
-          >
-            <ListItemButton
-              sx={{
-                minHeight: 48,
-                justifyContent: open ? "initial" : "center",
-                px: 2.5,
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : "auto",
-                  justifyContent: "center",
-                }}
-              >
-                <ShoppingCartIcon />
-              </ListItemIcon>
-              <ListItemText primary="Sales" sx={{ opacity: open ? 1 : 0 }} />
-            </ListItemButton>
-          </ListItem> */}
-          {/* <ListItem
-            disablePadding
-            sx={{
-              display: "block",
-              backgroundColor:
-                location.pathname === routeNames.PURCHASE ? "#53B789" : "initial",
-            }}
-            onClick={() => navigate("/Purchase")}
-          >
-            <ListItemButton
-              sx={{
-                minHeight: 48,
-                justifyContent: open ? "initial" : "center",
-                px: 2.5,
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : "auto",
-                  justifyContent: "center",
-                }}
-              >
-                <RedeemIcon />
-              </ListItemIcon>
-              <ListItemText
-                primary="Purchase"
-                sx={{
-                  opacity: open ? 1 : 0,
-                }}
-              />
-            </ListItemButton>
-          </ListItem> */}
+
           <ListItem
             disablePadding
             sx={{
@@ -388,84 +291,7 @@ export default function NavBar() {
               <ListItemText primary="Client" sx={{ opacity: open ? 1 : 0 }} />
             </ListItemButton>
           </ListItem>
-          {/* <ListItem
-            disablePadding
-            sx={{ display: "block" ,backgroundColor:
-              location.pathname === routeNames.INVOICE_ITEM ? "#53B789" : "initial", }}
-            onClick={() => navigate("/InvoiceItem")}
-          >
-            <ListItemButton
-              sx={{
-                minHeight: 48,
-                justifyContent: open ? "initial" : "center",
-                px: 2.5,
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : "auto",
-                  justifyContent: "center",
-                }}
-              >
-                <RedeemIcon />
-              </ListItemIcon>
-              <ListItemText
-                primary="InvoiceItem"
-                sx={{ opacity: open ? 1 : 0 }}
-              />
-            </ListItemButton>
-          </ListItem> */}
-          {/* <ListItem
-            disablePadding
-            sx={{ display: "block" ,backgroundColor:
-              location.pathname === routeNames.PAYMENT ? "#53B789" : "initial",}}
-            onClick={() => navigate("/Payment")}
-          >
-            <ListItemButton
-              sx={{
-                minHeight: 48,
-                justifyContent: open ? "initial" : "center",
-                px: 2.5,
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : "auto",
-                  justifyContent: "center",
-                }}
-              >
-                <PaymentsIcon />
-              </ListItemIcon>
-              <ListItemText primary="Payment" sx={{ opacity: open ? 1 : 0 }} />
-            </ListItemButton>
-          </ListItem>
-          <ListItem
-            disablePadding
-            sx={{ display: "block" ,backgroundColor:
-              location.pathname === routeNames.TAX ? "#53B789" : "initial", }}
-            onClick={() => navigate("/Tax")}
-          >
-            <ListItemButton
-              sx={{
-                minHeight: 48,
-                justifyContent: open ? "initial" : "center",
-                px: 2.5,
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : "auto",
-                  justifyContent: "center",
-                }}
-              >
-                <RedeemIcon />
-              </ListItemIcon>
-              <ListItemText primary="Tax" sx={{ opacity: open ? 1 : 0 }} />
-            </ListItemButton>
-          </ListItem> */}
+
           <ListItem
             disablePadding
             sx={{
@@ -496,59 +322,6 @@ export default function NavBar() {
               <ListItemText primary="Project" sx={{ opacity: open ? 1 : 0 }} />
             </ListItemButton>
           </ListItem>
-          {/* <ListItem
-            disablePadding
-            sx={{ display: "block" , backgroundColor:
-              location.pathname === routeNames.PAYMENT_METHOD ? "#53B789" : "initial", }}
-            onClick={() => navigate("/PayMethod")}
-          >
-            <ListItemButton
-              sx={{
-                minHeight: 48,
-                justifyContent: open ? "initial" : "center",
-                px: 2.5,
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : "auto",
-                  justifyContent: "center",
-                }}
-              >
-                <AddCardIcon />
-              </ListItemIcon>
-              <ListItemText
-                primary="PayMethod"
-                sx={{ opacity: open ? 1 : 0 }}
-              />
-            </ListItemButton>
-          </ListItem> */}
-          {/* <ListItem
-            disablePadding
-            sx={{ display: "block" , backgroundColor:
-              location.pathname === routeNames.EMPLOYEE ? "#53B789" : "initial", }}
-            onClick={() => navigate("/Employee")}
-          >
-            <ListItemButton
-              sx={{
-                minHeight: 48,
-                justifyContent: open ? "initial" : "center",
-                px: 2.5,
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : "auto",
-                  justifyContent: "center",
-                }}
-              >
-                <BadgeIcon />
-              </ListItemIcon>
-              <ListItemText primary="Employee" sx={{ opacity: open ? 1 : 0 }} />
-            </ListItemButton>
-          </ListItem> */}
         </List>
         <Divider />
       </Drawer>
@@ -659,7 +432,6 @@ export default function NavBar() {
                   </Button>
                 </li>
                 <br />
-                {/* <li>+ Weekly Log</li> */}
               </ul>
             </Grid>
             <Grid item xs={3} sx={{ marginLeft: 6 }}>
@@ -694,22 +466,9 @@ export default function NavBar() {
                       },
                     }}
                   >
-                    + Invoive Item
+                    + Invoice Item
                   </Button>
                 </li>
-                {/* <br />
-                <li>+ Delivery Challan</li>
-                <br />
-                <li>+ Invoices</li>
-                <br />
-                <li>+ Recurring Invoice</li>
-                <br />
-                <li>+ Retail Invoice</li>
-                <br />
-                <li>+ Sales Order</li>
-                <br />
-                <li>+ Customer Payment</li> */}
-                {/* <li>+ Credit Notes</li> */}
               </ul>
             </Grid>
             <Grid item xs={3} sx={{ marginLeft: 6 }}>
@@ -763,37 +522,8 @@ export default function NavBar() {
                   </Button>
                 </li>
                 <br />
-                {/* <br />
-                <li>+ Bills</li>
-                <br />
-                <li>+ Recurring Bills</li>
-                <br />
-                <li>+ Purchase Orders</li>
-                <br />
-                <li>+ Vendor Payment</li> */}
-                <br />
-                {/* <li>+ Vendor Credits</li> */}
               </ul>
             </Grid>
-            {/* <Grid item xs={3}>
-              <Typography variant="h8">
-              <ShoppingBagOutlinedIcon /> PURCHASES
-              </Typography>
-              <ul>
-                <br />
-                <li>+ Bank Transfer</li>
-                <br />
-                <li>+ Card Payment</li>
-                <br />
-                <li>+ Owner Drawings</li>
-                <br />
-                <li>+ Other Income</li>
-                <br />
-                <li>
-                  <Link to={"/Payment/"}>+ Payment</Link>
-                </li>
-              </ul>
-            </Grid> */}
           </Grid>
         </Box>
       </Modal>

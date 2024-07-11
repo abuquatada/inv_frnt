@@ -7,11 +7,10 @@ import { useAuth } from "./auth";
 import ProtectedRoutes from "./ProtectedRoutes";
 
 function App(props) {
-  const { isAuth } = useAuth()
+  const { isAuth } = useAuth();
   return (
     <BrowserRouter>
       <Routes>
-     
         {!isAuth ? (
           <>
             <Route path="/" element={<Signinform />} />
@@ -19,9 +18,7 @@ function App(props) {
           </>
         ) : (
           <>
-      
-              <Route path="/*" element={<Base />} />
-           
+            <Route path="/*" element={<Base />} />
           </>
         )}
       </Routes>

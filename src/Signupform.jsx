@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import base_url from "../src/utils/API";
 export default function Signupform({setOpen}) {
   const { register, handleSubmit, reset } = useForm();
   const navigate =useNavigate()
@@ -17,7 +18,7 @@ export default function Signupform({setOpen}) {
   const onSubmit = async (formData) => {
     try {
       await axios.post(
-        `https://o1y68c3x9ic0.share.zrok.io/auth_user/user/`,
+        `${base_url}/auth_user/user/`,
         formData,
         {
           headers: {

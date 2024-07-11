@@ -11,6 +11,7 @@ import {
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "./auth";
+import base_url from "../src/utils/API";
 
 
 export default function Signinform() {
@@ -20,7 +21,7 @@ export default function Signinform() {
 
   const onSubmit = async (formData) => {
     try {
-      const response = await axios.post(`https://1dalme6t9niz.share.zrok.io/auth_user/login/`,formData);
+      const response = await axios.post(`${base_url}/auth_user/login/`,formData);
       const token = response.data;
       console.log("Tokens", response.data);
       storeTokenInLS(response.data.access);

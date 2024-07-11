@@ -4,11 +4,11 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [isAuth, setIsAuth] = useState(false);
   const storeTokenInLS = (serverToken) => {
-    localStorage.setItem("token", serverToken)
-    setIsAuth(true)
+    localStorage.setItem("token", serverToken);
+    setIsAuth(true);
   };
   const clearTokens = () => {
-    localStorage.clear("refreshtoken","token")
+    localStorage.clear("refreshtoken", "token");
     setIsAuth(false);
     console.log("logged out");
   };
@@ -32,4 +32,3 @@ export const useAuth = () => {
   }
   return authContextValue;
 };
-

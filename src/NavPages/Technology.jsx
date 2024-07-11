@@ -1,20 +1,32 @@
-import React, { useState ,useEffect} from 'react';
-import { Input, Box, Button, Typography, Table, TableBody, TableCell, IconButton,TableContainer, TableHead, TableRow, Paper, FormControl, InputLabel, Modal } from '@mui/material';
-// import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-// import Navbar from '../Navbar';
+import React, { useState, useEffect } from "react";
+import {
+  Input,
+  Box,
+  Button,
+  Typography,
+  Table,
+  TableBody,
+  TableCell,
+  IconButton,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  FormControl,
+  InputLabel,
+  Modal,
+} from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 import NavBar from "../NavBar";
 import axios from "axios";
 import base_url from "../utils/API";
 
-
 function Tech(props) {
-
   const initialFormData = {
-    tech_id:'',
-    tech_name: '',
-    opt_id: ''
+    tech_id: "",
+    tech_name: "",
+    opt_id: "",
   };
 
   const [formData, setFormData] = useState(initialFormData);
@@ -41,13 +53,13 @@ function Tech(props) {
   const handleOpenModal = () => {
     setIsModalOpen(true);
     setEditMode(false);
-    setFormData(initialFormData); 
+    setFormData(initialFormData);
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
-    setEditMode(false); 
-    setFormData(initialFormData); 
+    setEditMode(false);
+    setFormData(initialFormData);
   };
 
   const handleChange = (e) => {
@@ -60,7 +72,6 @@ function Tech(props) {
 
   const handleSubmit = () => {
     if (editMode) {
-      
       const updatedData = [...tableData];
       updatedData[editIndex] = formData;
       setTableData(updatedData);
@@ -85,26 +96,8 @@ function Tech(props) {
   };
 
   return (
-    <Box sx={{ display: 'block', p: 10, marginLeft:30 }}>
-      <NavBar/>
-      <Box sx={{display:'flex', justifyContent:'flex-end'}}>
-        <Button
-          
-          onClick={handleOpenModal}
-          size='medium'
-          variant='contained'
-          sx={{
-            color: "white",
-            backgroundColor: "#123270",
-            borderRadius: 2,
-            height: '40px',
-            "&:hover": { color: "black", backgroundColor: "#53B789" },
-          }}
-        >
-          ADD
-        </Button>
-      </Box>
-
+    <Box sx={{ display: "block", p: 10, marginLeft: 30 }}>
+      <NavBar />
       <Modal
         open={isModalOpen}
         onClose={handleCloseModal}
@@ -113,20 +106,20 @@ function Tech(props) {
       >
         <Box
           sx={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
             width: 400,
-            bgcolor: 'background.paper',
-            border: '3px solid #455a64',
+            bgcolor: "background.paper",
+            border: "3px solid #455a64",
             boxShadow: 24,
             p: 4,
             borderRadius: 4,
           }}
         >
           <Typography id="modal-title" variant="h6" component="h2">
-            {editMode ? 'Edit Tax' : 'Add Tech'}
+            {editMode ? "Edit Tax" : "Add Tech"}
           </Typography>
           <FormControl fullWidth margin="normal">
             <InputLabel htmlFor="tech-id">Tech ID</InputLabel>
@@ -156,9 +149,9 @@ function Tech(props) {
               onChange={handleChange}
             />
           </FormControl>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
+          <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
             <Button variant="contained" color="success" onClick={handleSubmit}>
-              {editMode ? 'Update' : 'Save'}
+              {editMode ? "Update" : "Save"}
             </Button>
             <Button variant="outlined" color="error" onClick={handleCloseModal}>
               Cancel
@@ -167,38 +160,44 @@ function Tech(props) {
         </Box>
       </Modal>
 
-      <TableContainer component={Paper} sx={{marginTop: 5,}}>
+      <TableContainer component={Paper} sx={{ marginTop: 5 }}>
         <Table>
-          <TableHead sx={{ m: 5, backgroundColor: '#53B789'}}>
+          <TableHead sx={{ m: 5, backgroundColor: "#53B789" }}>
             <TableRow>
-              <TableCell sx={{ color: 'white', textAlign: 'center' }}>Tech ID</TableCell>
-              <TableCell sx={{ color: 'white', textAlign: 'center' }}>Tech Name</TableCell>
-              <TableCell sx={{ color: 'white', textAlign: 'center' }}>Option ID</TableCell>
-
-              <TableCell sx={{ color: 'white', textAlign: 'center' }}>Action</TableCell>
+              <TableCell sx={{ color: "white", textAlign: "center" }}>
+                Tech ID
+              </TableCell>
+              <TableCell sx={{ color: "white", textAlign: "center" }}>
+                Tech Name
+              </TableCell>
+              <TableCell sx={{ color: "white", textAlign: "center" }}>
+                Option ID
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {tableData.map((row, index) => (
-              <TableRow key={index} sx={{ m: 5, height:'3',backgroundColor: '#fff', '&:hover': { backgroundColor: '#dcf0e7' } }}>
-                <TableCell sx={{textAlign: 'center' }}>{row.tech_id}</TableCell>
-                <TableCell sx={{textAlign: 'center' }}>{row.name}</TableCell>
-                <TableCell sx={{textAlign: 'center' }}>{row.option_name}</TableCell>
-
-                <TableCell sx={{textAlign: 'center' }}>
-                  <IconButton onClick={() => handleEdit(index)} aria-label="edit" sx={{ color: 'grey' }}>
-                    <EditIcon />
-                  </IconButton>
-                  <IconButton onClick={() => handleDelete(index)} aria-label="delete" sx={{ color: 'red' }}>
-                    <DeleteIcon />
-                  </IconButton>
+              <TableRow
+                key={index}
+                sx={{
+                  m: 5,
+                  height: "3",
+                  backgroundColor: "#fff",
+                  "&:hover": { backgroundColor: "#dcf0e7" },
+                }}
+              >
+                <TableCell sx={{ textAlign: "center" }}>
+                  {row.tech_id}
+                </TableCell>
+                <TableCell sx={{ textAlign: "center" }}>{row.name}</TableCell>
+                <TableCell sx={{ textAlign: "center" }}>
+                  {row.option_name}
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
-
     </Box>
   );
 }
