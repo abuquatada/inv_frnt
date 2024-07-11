@@ -44,16 +44,9 @@ export default Base;
 
 export const routeNames = {
   HOME: '/',
-  // SALES: '/Sales',
-  // PURCHASE: '/Purchase',
   INVOICE: '/Invoice',
   CLIENT: '/Client',
-  // INVOICE_ITEM: '/InvoiceItem',
-  // PAYMENT: '/Payment',
   PROJECT: '/Project',
-  // TAX: '/Tax',
-  // PAYMENT_METHOD: '/PayMethod',
-  // EMPLOYEE: '/Employee',
 }
 
 
