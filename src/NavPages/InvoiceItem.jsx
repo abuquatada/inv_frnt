@@ -1,20 +1,35 @@
-import React, { useState,useEffect } from 'react';
-import { Input, Box, Button, Typography, Table, TableBody, TableCell, IconButton,TableContainer, TableHead, TableRow, Paper, FormControl, InputLabel, Modal } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import NavBar from '../NavBar';
+import React, { useState, useEffect } from "react";
+import {
+  Input,
+  Box,
+  Button,
+  Typography,
+  Table,
+  TableBody,
+  TableCell,
+  IconButton,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  FormControl,
+  InputLabel,
+  Modal,
+} from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import NavBar from "../NavBar";
 import axios from "axios";
 import base_url from "../utils/API";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 function Project(props) {
-
   const initialFormData = {
-    invoice_id: '',
-    project_id: '',
-    item_price: '',
-    tax_id: '',
-    tax_amount: '',
+    invoice_id: "",
+    project_id: "",
+    item_price: "",
+    tax_id: "",
+    tax_amount: "",
   };
 
   const [formData, setFormData] = useState(initialFormData);
@@ -29,7 +44,6 @@ function Project(props) {
   const [projectid, setprojectid] = React.useState("");
   const [taxid, settaxid] = React.useState("");
 
-     
   useEffect(() => {
     getData();
     getinvoice();
@@ -58,7 +72,7 @@ function Project(props) {
     try {
       const response = await axios.get(`${base_url}/client/project/`);
       setProjectdata(response.data);
-      console.log(response.data,'#$%^##');
+      console.log(response.data, "#$%^##");
     } catch (err) {
       console.error("Error fetching data:", err);
     }
@@ -73,14 +87,14 @@ function Project(props) {
       console.error("Error fetching data:", err);
     }
   };
-     
+
   function postDataToServer(values) {
     axios
       .post(`${base_url}/client/invoice_item/`, formData)
       .then((res) => {
         console.log(res.data);
         getData();
-        alert("Invoice Added Successfully");
+        alert("Invoice Item Added Successfully");
       })
       .catch((err) => {
         console.log(err);
@@ -89,11 +103,9 @@ function Project(props) {
 
   const updateDataToServer = async () => {
     try {
-      await axios.put(
-        `${base_url}/client/invoice_item/`,formData
-      );
+      await axios.put(`${base_url}/client/invoice_item/`, formData);
       getData();
-      alert("Client updated Successfully");
+      alert("Invoice Item updated Successfully");
     } catch (err) {
       console.error("Error updating client:", err);
     }
@@ -105,7 +117,7 @@ function Project(props) {
         `${base_url}/client/invoice_item/?delete=${invoice_item_id}`
       );
       getData();
-      alert("Client deleted Successfully");
+      alert("Invoice Item deleted Successfully");
     } catch (err) {
       console.error("Error deleting client:", err);
     }
@@ -113,36 +125,36 @@ function Project(props) {
 
   const handleChangeClientDropdown = (event) => {
     setinvoiceid(event.target.value);
-      setFormData({
-        ...formData,
-        invoice_id: + event.target.value,
-      });
+    setFormData({
+      ...formData,
+      invoice_id: +event.target.value,
+    });
   };
   const handleChangeProjectDropdown = (event) => {
     setprojectid(event.target.value);
-      setFormData({
-        ...formData,
-        project_id: + event.target.value,
-      });
+    setFormData({
+      ...formData,
+      project_id: +event.target.value,
+    });
   };
   const handleChangeTaxDropdown = (event) => {
     settaxid(event.target.value);
-      setFormData({
-        ...formData,
-        tax_id: + event.target.value,
-      });
+    setFormData({
+      ...formData,
+      tax_id: +event.target.value,
+    });
   };
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
     setEditMode(false);
-    setFormData(initialFormData); 
+    setFormData(initialFormData);
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
-    setEditMode(false); 
-    setFormData(initialFormData); 
+    setEditMode(false);
+    setFormData(initialFormData);
   };
 
   const handleChange = (e) => {
@@ -179,46 +191,51 @@ function Project(props) {
   };
 
   return (
-    <Box sx={{ display: 'block', p: 10, marginLeft:30}}>
+    <Box sx={{ display: "block", p: 10, marginLeft: 30 }}>
       <NavBar />
-      <Box sx={{display:'flex', justifyContent:'flex-end'}}>
+      <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
         <Button
-          
           onClick={handleOpenModal}
-          size='medium'
-          variant='contained'
-          sx={{ color: 'white', backgroundColor: '#123270', borderRadius: 2, '&:hover': { color: 'black', backgroundColor: '#53B789' ,} }}
+          size="medium"
+          variant="contained"
+          sx={{
+            color: "white",
+            backgroundColor: "#123270",
+            borderRadius: 2,
+            "&:hover": { color: "black", backgroundColor: "#53B789" },
+          }}
         >
           ADD
         </Button>
       </Box>
 
-      <Modal open={isModalOpen}
+      <Modal
+        open={isModalOpen}
         onClose={handleCloseModal}
         aria-labelledby="modal-title"
-        aria-describedby="modal-description">
-            <Box
+        aria-describedby="modal-description"
+      >
+        <Box
           sx={{
-            flexDirection: 'column',
-            position: 'absolute',
-            top: '60%',
-            left: '60%',
-            transform: 'translate(-50%, -50%)',
+            flexDirection: "column",
+            position: "absolute",
+            top: "60%",
+            left: "60%",
+            transform: "translate(-50%, -50%)",
             width: 800,
-            bgcolor: 'background.paper',
-            border: '3px solid #455a64',
+            bgcolor: "background.paper",
+            border: "3px solid #455a64",
             boxShadow: 24,
             p: 4,
             borderRadius: 4,
           }}
         >
-          <Typography id="modal-title" component="main" sx={{flexGrow:1}}>
-            {editMode ? 'Edit Invoice' : 'Add Invoice'}
+          <Typography id="modal-title" component="main" sx={{ flexGrow: 1 }}>
+            {editMode ? "Edit Invoice" : "Add Invoice"}
           </Typography>
           <FormControl sx={{ margin: 2, width: 200 }}>
             <InputLabel id="demo-simple-select-label">Invoice Id</InputLabel>
             <Select
-              
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               value={invoiceid}
@@ -229,35 +246,12 @@ function Project(props) {
               {invoicedata.map((row, index) => (
                 <MenuItem value={row.invoice_id}>{row.invoice_id}</MenuItem>
               ))}
-              {/* <MenuItem value={20}>Facebook</MenuItem>
-          <MenuItem value={30}>Abu</MenuItem>
-          <MenuItem value={40}>Dnan</MenuItem>
-          <MenuItem value={50}>Netflix</MenuItem> */}
             </Select>
           </FormControl>
-          {/* <FormControl  sx={{margin:2}}>
-            <InputLabel htmlFor="project-id">Invoice Id</InputLabel>
-            <Input
-              id="invoice-id"
-              name="invoice_id"
-              value={formData.invoice_id}
-              onChange={handleChange}
-            />
-          </FormControl> */}
-          {/* <FormControl  sx={{margin:2}}>
-            <InputLabel htmlFor="project_id">Project Id</InputLabel>
-            <Input
-              id="project-id"
-              name="project_id"
-              value={formData.project_id}
-              onChange={handleChange}
-            />
-          </FormControl> */}
 
-<FormControl sx={{ margin: 2, width: 200 }}>
+          <FormControl sx={{ margin: 2, width: 200 }}>
             <InputLabel id="demo-simple-select-label">Project Id</InputLabel>
             <Select
-              
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               value={projectid}
@@ -265,18 +259,16 @@ function Project(props) {
               label="Invoice Id"
               onChange={handleChangeProjectDropdown}
             >
-              {projectdata.map((row, index) => (
-                console.log(row ,"******"),
-                <MenuItem value={row.project_id}>{row.project_id}</MenuItem>
-              ))}
-              {/* <MenuItem value={20}>Facebook</MenuItem>
-          <MenuItem value={30}>Abu</MenuItem>
-          <MenuItem value={40}>Dnan</MenuItem>
-          <MenuItem value={50}>Netflix</MenuItem> */}
+              {projectdata.map(
+                (row, index) => (
+                  console.log(row, "******"),
+                  (<MenuItem value={row.project_id}>{row.project_id}</MenuItem>)
+                )
+              )}
             </Select>
           </FormControl>
 
-          <FormControl sx={{margin:2}}>
+          <FormControl sx={{ margin: 2 }}>
             <InputLabel htmlFor="client-id">Item Price</InputLabel>
             <Input
               id="item-price"
@@ -285,20 +277,10 @@ function Project(props) {
               onChange={handleChange}
             />
           </FormControl>
-          {/* <FormControl sx={{margin:2}}>
-            <InputLabel htmlFor="team-id">Tax Id</InputLabel>
-            <Input
-              id="tax-id"
-              name="tax_id"
-              value={formData.tax_id}
-              onChange={handleChange}
-            />
-          </FormControl> */}
 
-<FormControl sx={{ margin: 2, width: 200 }}>
+          <FormControl sx={{ margin: 2, width: 200 }}>
             <InputLabel id="demo-simple-select-label">Tax Id</InputLabel>
             <Select
-              
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               value={taxid}
@@ -309,13 +291,9 @@ function Project(props) {
               {taxdata.map((row, index) => (
                 <MenuItem value={row.tax_id}>{row.tax_name}</MenuItem>
               ))}
-              {/* <MenuItem value={20}>Facebook</MenuItem>
-          <MenuItem value={30}>Abu</MenuItem>
-          <MenuItem value={40}>Dnan</MenuItem>
-          <MenuItem value={50}>Netflix</MenuItem> */}
             </Select>
           </FormControl>
-          <FormControl  sx={{margin:2}}>
+          <FormControl sx={{ margin: 2 }}>
             <InputLabel htmlFor="tech-id">Tax Amount</InputLabel>
             <Input
               id="tax-amount"
@@ -324,42 +302,81 @@ function Project(props) {
               onChange={handleChange}
             />
           </FormControl>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
+          <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
             <Button variant="contained" color="success" onClick={handleSubmit}>
-              {editMode ? 'Update' : 'Save'}
+              {editMode ? "Update" : "Save"}
             </Button>
             <Button variant="outlined" color="error" onClick={handleCloseModal}>
               Cancel
             </Button>
           </Box>
         </Box>
-        </Modal>
+      </Modal>
 
-      <TableContainer component={Paper} sx={{maxHeight:'100vh', marginTop: 5,}}>
+      <TableContainer
+        component={Paper}
+        sx={{ maxHeight: "100vh", marginTop: 5 }}
+      >
         <Table>
-          <TableHead sx={{ m: 5, backgroundColor: '#53B789'}}>
+          <TableHead sx={{ m: 5, backgroundColor: "#53B789" }}>
             <TableRow>
-              <TableCell sx={{ color: 'white', textAlign: 'center' }}>Invoice Id</TableCell>
-              <TableCell sx={{ color: 'white', textAlign: 'center' }}>Project Id</TableCell>
-              <TableCell sx={{ color: 'white', textAlign: 'center' }}>Item Price</TableCell>
-              <TableCell sx={{ color: 'white', textAlign: 'center' }}>Tax Id</TableCell>
-              <TableCell sx={{ color: 'white', textAlign: 'center' }}>Tax Amount</TableCell>
-              <TableCell sx={{ color: 'white', textAlign: 'center' }}>Action</TableCell>
+              <TableCell sx={{ color: "white", textAlign: "center" }}>
+                Invoice Id
+              </TableCell>
+              <TableCell sx={{ color: "white", textAlign: "center" }}>
+                Project Id
+              </TableCell>
+              <TableCell sx={{ color: "white", textAlign: "center" }}>
+                Item Price
+              </TableCell>
+              <TableCell sx={{ color: "white", textAlign: "center" }}>
+                Tax Id
+              </TableCell>
+              <TableCell sx={{ color: "white", textAlign: "center" }}>
+                Tax Amount
+              </TableCell>
+              <TableCell sx={{ color: "white", textAlign: "center" }}>
+                Action
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {tableData.map((row, index) => (
-              <TableRow key={index} sx={{ m: 5, height:'3',backgroundColor: '#fff', '&:hover': { backgroundColor: '#dcf0e7' } }}>
-                <TableCell sx={{textAlign: 'center' }}>{row.invoice_id}</TableCell>
-                <TableCell sx={{textAlign: 'center' }}>{row.project_id}</TableCell>
-                <TableCell sx={{textAlign: 'center' }}>{row.item_price}</TableCell>
-                <TableCell sx={{textAlign: 'center' }}>{row.tax_id}</TableCell>
-                <TableCell sx={{textAlign: 'center' }}>{row.tax_amount}</TableCell>
-                <TableCell sx={{textAlign: 'center' }}>
-                  <IconButton onClick={() => handleEdit(index)} aria-label="edit" sx={{ color: 'grey' }}>
+              <TableRow
+                key={index}
+                sx={{
+                  m: 5,
+                  height: "3",
+                  backgroundColor: "#fff",
+                  "&:hover": { backgroundColor: "#dcf0e7" },
+                }}
+              >
+                <TableCell sx={{ textAlign: "center" }}>
+                  {row.invoice_id}
+                </TableCell>
+                <TableCell sx={{ textAlign: "center" }}>
+                  {row.project_id}
+                </TableCell>
+                <TableCell sx={{ textAlign: "center" }}>
+                  {row.item_price}
+                </TableCell>
+                <TableCell sx={{ textAlign: "center" }}>{row.tax_id}</TableCell>
+                <TableCell sx={{ textAlign: "center" }}>
+                  {row.tax_amount}
+                </TableCell>
+                <TableCell sx={{ textAlign: "center" }}>
+                  <IconButton
+                    onClick={() => handleEdit(index)}
+                    aria-label="edit"
+                    sx={{ color: "grey" }}
+                  >
                     <EditIcon />
                   </IconButton>
-                  <IconButton onClick={() => handleDelete(row.invoice_item_id)} aria-label="delete" sx={{ color: 'red' }}>
+                  <IconButton
+                    onClick={() => handleDelete(row.invoice_item_id)}
+                    aria-label="delete"
+                    sx={{ color: "red" }}
+                  >
                     <DeleteIcon />
                   </IconButton>
                 </TableCell>
@@ -368,25 +385,8 @@ function Project(props) {
           </TableBody>
         </Table>
       </TableContainer>
-
     </Box>
   );
 }
 
 export default Project;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    

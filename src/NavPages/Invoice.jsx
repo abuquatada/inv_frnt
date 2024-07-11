@@ -24,8 +24,7 @@ import jsPDF from "jspdf";
 import "jspdf-autotable";
 import axios from "axios";
 import base_url from "../utils/API";
-// import Search from '../components/Search';
-// import ClientNameDropdown from '../components/ClientNameDropdown';
+
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 
@@ -39,6 +38,7 @@ function Project(props) {
 
   const [formData, setFormData] = useState(initialFormData);
   const [tableData, setTableData] = useState([]);
+  const [client, setclient] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [editIndex, setEditIndex] = useState(null);
@@ -49,8 +49,17 @@ function Project(props) {
 
   useEffect(() => {
     getData();
+    getclient();
   }, []);
 
+  const getclient = async () => {
+    try {
+      const response = await axios.get(`${base_url}/client/client/`);
+      setclient(response.data);
+    } catch (err) {
+      console.error("Error fetching data:", err);
+    }
+  };
   const getData = async () => {
     try {
       const response = await axios.get(`${base_url}/client/invoice/`);
@@ -89,10 +98,10 @@ function Project(props) {
 
   const handleChangeClientDropdown = (event) => {
     setclient_id(event.target.value);
-      setFormData({
-        ...formData,
-        client_id: + event.target.value,
-      });
+    setFormData({
+      ...formData,
+      client_id: +event.target.value,
+    });
   };
 
   const handleChange = (e) => {
@@ -243,17 +252,7 @@ function Project(props) {
   return (
     <Box sx={{ display: "block", p: 10, marginLeft: 30 }}>
       <NavBar />
-      {/* <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-        
-        <Button
-          onClick={handleOpenModal}
-          size='medium'
-          variant='contained'
-          sx={{ color: 'white', backgroundColor: '#123270', borderRadius: 2, '&:hover': { color: 'black', backgroundColor: '#53B789', } }}
-        >
-          ADD
-        </Button>
-      </Box> */}
+
       <Box
         sx={{
           display: "flex",
@@ -318,7 +317,6 @@ function Project(props) {
           <FormControl sx={{ margin: 2, width: 200 }}>
             <InputLabel id="demo-simple-select-label">Client Name</InputLabel>
             <Select
-              
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               value={client_id}
@@ -326,29 +324,12 @@ function Project(props) {
               label="Client Name"
               onChange={handleChangeClientDropdown}
             >
-              {tableData.map((row, index) => (
-                <MenuItem value={row.client_id.client_id}>{row.client_id.client_name}</MenuItem>
+              {client.map((row, index) => (
+                <MenuItem value={row.client_id}>{row.client_name}</MenuItem>
               ))}
-              {/* <MenuItem value={20}>Facebook</MenuItem>
-          <MenuItem value={30}>Abu</MenuItem>
-          <MenuItem value={40}>Dnan</MenuItem>
-          <MenuItem value={50}>Netflix</MenuItem> */}
             </Select>
           </FormControl>
-          {/* <FormControl sx={{ margin: 2 }}>
-            <InputLabel htmlFor="customer-name">Client Name</InputLabel>
-            <Input
-              id="client-id"
-              name="client_id"
-              value={formData.client_id}
-              onChange={(e)=>{
-                setFormData({
-                  ...formData,
-                  client_id: +e.target.value,
-                });
-              }}
-            />
-          </FormControl> */}
+
           <FormControl sx={{ margin: 2 }}>
             <InputLabel htmlFor="due-date">Due Date</InputLabel>
             <Input
@@ -377,62 +358,7 @@ function Project(props) {
               onChange={handleChange}
             />
           </FormControl>
-          {/* <FormControl sx={{ margin: 2 }}>
-            <InputLabel htmlFor="order-number">Order Number</InputLabel>
-            <Input
-              id="order-number"
-              name="order_number"
-              value={formData.order_number}
-              onChange={handleChange}
-            />
-          </FormControl>
-          <FormControl sx={{ margin: 2 }}>
-            <InputLabel htmlFor="invoice-date">Invoice Date</InputLabel>
-            <Input
-              id="invoice-date"
-              name="invoice_date"
-              value={formData.invoice_date}
-              onChange={handleChange}
-            />
-          </FormControl>
-          
-          <FormControl sx={{ margin: 2 }}>
-            <InputLabel htmlFor="description">Description</InputLabel>
-            <Input
-              id="description"
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-            />
-          </FormControl>
-          <FormControl sx={{ margin: 2 }}>
-            <InputLabel htmlFor="quantity">Quantity</InputLabel>
-            <Input
-              id="quantity"
-              name="quantity"
-              value={formData.quantity}
-              onChange={handleChange}
-            />
-          </FormControl>
-          <FormControl sx={{ margin: 2 }}>
-            <InputLabel htmlFor="price">Price</InputLabel>
-            <Input
-              id="price"
-              name="price"
-              value={formData.price}
-              onChange={handleChange}
-            />
-          </FormControl>
-          
-          <FormControl sx={{ margin: 2 }}>
-            <InputLabel htmlFor="notes">Notes</InputLabel>
-            <Input
-              id="notes"
-              name="notes"
-              value={formData.notes}
-              onChange={handleChange}
-            />
-          </FormControl> */}
+
           <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
             <Button variant="contained" color="success" onClick={handleSubmit}>
               {editMode ? "Update" : "Save"}

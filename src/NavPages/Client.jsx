@@ -1,5 +1,3 @@
-// 
-
 import React, { useState, useEffect } from "react";
 import {
   Input,
@@ -24,7 +22,6 @@ import EditIcon from "@mui/icons-material/Edit";
 import NavBar from "../NavBar";
 import axios from "axios";
 import base_url from "../utils/API";
-// import Search from '../components/Search';
 
 function Project(props) {
   const initialFormData = {
@@ -160,34 +157,28 @@ function Project(props) {
   return (
     <Box sx={{ display: "block", p: 10, marginLeft: 30 }}>
       <NavBar />
-      {/* <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
-        <TextField
-          type="search"
-          placeholder="Enter the Client Id"
-          onChange={(e) => setSearch(e.target.value)}
-          sx={{ flexGrow: 1, mr: 2,}}
-        />
-        <Button
-          onClick={() => handleOpenModal()}
-          size="medium"
-          variant="contained"
-          sx={{
-            color: "white",
-            backgroundColor: "#123270",
-            borderRadius: 2,
-            "&:hover": { color: "black", backgroundColor: "#53B789" },
-          }}
-        >
-          ADD
-        </Button> */}
-        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          
+
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
         <TextField
           type="search"
           placeholder="Enter the Client Name"
           onChange={(e) => setSearch(e.target.value)}
           variant="outlined"
-          sx={{ flex: 1, mr: 2, '& .MuiOutlinedInput-root': {height: '43px', width:780, borderRadius: 16 } }}
+          sx={{
+            flex: 1,
+            mr: 2,
+            "& .MuiOutlinedInput-root": {
+              height: "43px",
+              width: 780,
+              borderRadius: 16,
+            },
+          }}
         />
         <Button
           onClick={() => handleOpenModal()}
@@ -197,7 +188,7 @@ function Project(props) {
             color: "white",
             backgroundColor: "#123270",
             borderRadius: 2,
-            height: '40px',
+            height: "40px",
             "&:hover": { color: "black", backgroundColor: "#53B789" },
           }}
         >
@@ -345,32 +336,39 @@ function Project(props) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {tableData && tableData
-              .filter((client) =>
-                client.client_name
-                  .toString()
-                  .toLowerCase()
-                  .includes(search.toLowerCase())
-              )
-              .map((client) => (
-                <TableRow key={client.client_id}>
-                  <TableCell>{client.client_name}</TableCell>
-                  <TableCell>{client.user_id.user_name}</TableCell>
-                  <TableCell>{client.user_id.first_name}</TableCell>
-                  <TableCell>{client.user_id.last_name}</TableCell>
-                  <TableCell>{client.user_id.email}</TableCell>
-                  <TableCell>{client.user_id.contact}</TableCell>
-                  <TableCell>{client.company_address}</TableCell>
-                  <TableCell >
-                    <IconButton onClick={() => handleEdit(client)} sx={{ color: "gray",}}>
-                      <EditIcon />
-                    </IconButton>
-                    <IconButton onClick={() => handleDelete(client.client_id)} sx={{ color: "red" }}>
-                      <DeleteIcon />
-                    </IconButton>
-                  </TableCell>
-                </TableRow>
-              ))}
+            {tableData &&
+              tableData
+                .filter((client) =>
+                  client.client_name
+                    .toString()
+                    .toLowerCase()
+                    .includes(search.toLowerCase())
+                )
+                .map((client) => (
+                  <TableRow key={client.client_id}>
+                    <TableCell>{client.client_name}</TableCell>
+                    <TableCell>{client.user_id.user_name}</TableCell>
+                    <TableCell>{client.user_id.first_name}</TableCell>
+                    <TableCell>{client.user_id.last_name}</TableCell>
+                    <TableCell>{client.user_id.email}</TableCell>
+                    <TableCell>{client.user_id.contact}</TableCell>
+                    <TableCell>{client.company_address}</TableCell>
+                    <TableCell>
+                      <IconButton
+                        onClick={() => handleEdit(client)}
+                        sx={{ color: "gray" }}
+                      >
+                        <EditIcon />
+                      </IconButton>
+                      <IconButton
+                        onClick={() => handleDelete(client.client_id)}
+                        sx={{ color: "red" }}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                ))}
           </TableBody>
         </Table>
       </TableContainer>

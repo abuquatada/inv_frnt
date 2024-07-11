@@ -1,9 +1,10 @@
-import React from 'react';
-import { Button, Box, Table, TableBody, TableCell, IconButton, TableContainer, TableHead, TableRow, Paper, } from '@mui/material';
+import React,{useState} from 'react';
+import { Button, Box, Table, TableBody, TableCell, TextField, IconButton, TableContainer, TableHead, TableRow, Paper, } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
 export default function PaymentTable({ data, edit, dlt, setOpen }) {
+  const [search, setSearch] = useState("");
   const handleAddClick = () => {
     edit({});
     setOpen(true);
@@ -12,7 +13,15 @@ export default function PaymentTable({ data, edit, dlt, setOpen }) {
   return (
     <>
       <Box sx={{ display: 'block'  }}>
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end'}}>
+      <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          
+          <TextField
+            type="search"
+            placeholder="Enter the Invoice ID"
+            onChange={(e) => setSearch(e.target.value)}
+            variant="outlined"
+            sx={{ flex: 1, mr: 2, '& .MuiOutlinedInput-root': {height: '43px', width:780, borderRadius: 16 } }}
+          />
           <Button
             onClick={handleAddClick}
             size='medium'
@@ -35,7 +44,13 @@ export default function PaymentTable({ data, edit, dlt, setOpen }) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {data && data.map((e, index) => (
+            {data &&
+                data
+                  .filter((e) => {
+                    return search.toLowerCase() === ""
+                      ? e
+                      : e.invoice_id.toLowerCase().includes(search);
+                  }).map((e, index) => (
                 <TableRow key={index} sx={{ m: 5, height: '3', backgroundColor: '#fff', '&:hover': { backgroundColor: '#dcf0ef' } }}>
                   <TableCell sx={{ textAlign: 'center' }}>{e.payment_id}</TableCell>
                   <TableCell sx={{ textAlign: 'center' }}>{e.invoice_id}</TableCell>
