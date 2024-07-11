@@ -1,12 +1,10 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import {
-  Input,
   MenuItem,
   Select,
   Box,
   Button,
-  Typography,
   FormControl,
   InputLabel,
   Modal,
@@ -47,7 +45,6 @@ export default function Form({ addData, edit, open, onClose }) {
             borderRadius: 4,
           }}
         >
-          
           <FormControl fullWidth margin="normal">
             <InputLabel htmlFor="payment_type">Payment Type</InputLabel>
 

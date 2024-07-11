@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import {
   Input,
@@ -11,25 +11,21 @@ import {
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import base_url from "../src/utils/API";
-export default function Signupform({setOpen}) {
+export default function Signupform({ setOpen }) {
   const { register, handleSubmit, reset } = useForm();
-  const navigate =useNavigate()
+  const navigate = useNavigate();
 
   const onSubmit = async (formData) => {
     try {
-      await axios.post(
-        `${base_url}/auth_user/user/`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "application/json", 
-          },
-        }
-      );
+      await axios.post(`${base_url}/auth_user/user/`, formData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       alert("User registered successfully");
-      setOpen(false)
+      setOpen(false);
       reset();
-      navigate('/signin')
+      navigate("/signin");
     } catch (error) {
       console.log("error");
       alert("An error occurred while registering");

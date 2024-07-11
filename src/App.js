@@ -4,7 +4,6 @@ import Signinform from "./Signinform";
 import Signupform from "./Signupform";
 import Base from "./Base";
 import { useAuth } from "./auth";
-import ProtectedRoutes from "./ProtectedRoutes";
 
 function App(props) {
   const { isAuth } = useAuth();

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import {
   Input,
@@ -13,20 +13,21 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "./auth";
 import base_url from "../src/utils/API";
 
-
 export default function Signinform() {
   const { register, handleSubmit, reset } = useForm();
-  const navigate =useNavigate()
-  const {storeTokenInLS}= useAuth()
+  const navigate = useNavigate();
+  const { storeTokenInLS } = useAuth();
 
   const onSubmit = async (formData) => {
     try {
-      const response = await axios.post(`${base_url}/auth_user/login/`,formData);
-      const token = response.data;
+      const response = await axios.post(
+        `${base_url}/auth_user/login/`,
+        formData
+      );
       console.log("Tokens", response.data);
       storeTokenInLS(response.data.access);
       localStorage.setItem("refreshToken", response.data.refresh);
-      navigate('/*')
+      navigate("/*");
     } catch (error) {
       console.log("error during login");
       alert("Invalid Username and Password");

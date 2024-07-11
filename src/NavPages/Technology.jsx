@@ -7,7 +7,6 @@ import {
   Table,
   TableBody,
   TableCell,
-  IconButton,
   TableContainer,
   TableHead,
   TableRow,
@@ -16,8 +15,6 @@ import {
   InputLabel,
   Modal,
 } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
 import NavBar from "../NavBar";
 import axios from "axios";
 import base_url from "../utils/API";
@@ -33,7 +30,6 @@ function Tech(props) {
   const [tableData, setTableData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editMode, setEditMode] = useState(false);
-  const [editIndex, setEditIndex] = useState(null);
 
   useEffect(() => {
     getData();
@@ -48,12 +44,6 @@ function Tech(props) {
       console.log(err);
       console.error("Error fetching data:", err);
     }
-  };
-
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
-    setEditMode(false);
-    setFormData(initialFormData);
   };
 
   const handleCloseModal = () => {
@@ -73,26 +63,12 @@ function Tech(props) {
   const handleSubmit = () => {
     if (editMode) {
       const updatedData = [...tableData];
-      updatedData[editIndex] = formData;
       setTableData(updatedData);
     } else {
       setTableData([...tableData, formData]);
     }
     setFormData(initialFormData);
     handleCloseModal();
-  };
-
-  const handleEdit = (index) => {
-    setFormData(tableData[index]);
-    setEditMode(true);
-    setEditIndex(index);
-    setIsModalOpen(true);
-  };
-
-  const handleDelete = (index) => {
-    const updatedData = [...tableData];
-    updatedData.splice(index, 1);
-    setTableData(updatedData);
   };
 
   return (

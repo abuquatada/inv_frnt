@@ -259,12 +259,9 @@ function Project(props) {
               label="Invoice Id"
               onChange={handleChangeProjectDropdown}
             >
-              {projectdata.map(
-                (row, index) => (
-                  console.log(row, "******"),
-                  (<MenuItem value={row.project_id}>{row.project_id}</MenuItem>)
-                )
-              )}
+              {projectdata.map((row, index) => (
+                <MenuItem value={row.project_id}>{row.project_id}</MenuItem>
+              ))}
             </Select>
           </FormControl>
 

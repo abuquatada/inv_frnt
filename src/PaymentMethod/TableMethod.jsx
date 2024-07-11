@@ -1,23 +1,15 @@
 import React from "react";
 import {
-  Button,
   Box,
   Table,
   TableBody,
   TableCell,
-  IconButton,
   TableContainer,
   TableHead,
   TableRow,
   Paper,
 } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
 export default function TableMethod({ data, edit, dlt, setOpen }) {
-  const handleAddClick = () => {
-    edit({});
-    setOpen(true);
-  };
   return (
     <>
       <Box sx={{ display: "block" }}>
@@ -34,7 +26,6 @@ export default function TableMethod({ data, edit, dlt, setOpen }) {
                 <TableCell sx={{ color: "white", textAlign: "center" }}>
                   Payment Type
                 </TableCell>
-                
               </TableRow>
             </TableHead>
             <TableBody>
@@ -49,11 +40,12 @@ export default function TableMethod({ data, edit, dlt, setOpen }) {
                       "&:hover": { backgroundColor: "#dcf0e7" },
                     }}
                   >
-                    <TableCell sx={{ textAlign: "center" }}>{e.payment_method_id}</TableCell>
+                    <TableCell sx={{ textAlign: "center" }}>
+                      {e.payment_method_id}
+                    </TableCell>
                     <TableCell sx={{ textAlign: "center" }}>
                       {e.payment_type}
                     </TableCell>
-                    
                   </TableRow>
                 ))}
             </TableBody>
