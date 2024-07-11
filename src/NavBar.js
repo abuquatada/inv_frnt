@@ -34,7 +34,10 @@ import GridViewOutlinedIcon from "@mui/icons-material/GridViewOutlined";
 import PaymentsIcon from "@mui/icons-material/Payments";
 import AddCardIcon from "@mui/icons-material/AddCard";
 import BadgeIcon from "@mui/icons-material/Badge";
-import { routeNames } from "./App";
+import { routeNames } from "./Base";
+import { useAuth } from "./auth";
+import LogoutIcon from '@mui/icons-material/Logout';
+
 
 const drawerWidth = 240;
 
@@ -108,7 +111,12 @@ export default function NavBar() {
   const [open, setOpen] = React.useState(true);
   const [modalOpen, setModalOpen] = React.useState(false);
   const location = useLocation();
+  const { clearTokens } = useAuth()
 
+  const Logout = () => {
+    clearTokens();
+    navigate('/')
+  };
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -179,21 +187,24 @@ export default function NavBar() {
           <Button color="inherit" onClick={handleModalOpen}>
             <AddIcon />
           </Button>
-          <Button color="inherit">
+          {/* <Button color="inherit">
             <PersonOutlineOutlinedIcon />
-          </Button>
+          </Button> */}
           {/* <Button color="inherit">
             <NotificationsNoneOutlinedIcon />
           </Button> */}
           {/* <Button color="inherit">
             <AccountCircleOutlinedIcon />
           </Button> */}
-          <Button color="inherit">
+          {/* <Button color="inherit">
             <SettingsSuggestOutlinedIcon />
-          </Button>
+          </Button> */}
           {/* <Button color="inherit">
             <AppsOutlinedIcon />
           </Button> */}
+              <Button color="inherit" onClick={Logout}>
+                <LogoutIcon/>
+              </Button>
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>
