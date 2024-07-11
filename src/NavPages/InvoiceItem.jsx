@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Input, Box, Button, Typography, Table, TableBody, TableCell, IconButton,TableContainer, TableHead, TableRow, Paper, FormControl, InputLabel, Modal } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import NavBar from '../NavBar';
+import axios from "axios";
+import base_url from "../utils/API";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
 function Project(props) {
 
   const initialFormData = {
@@ -15,9 +19,119 @@ function Project(props) {
 
   const [formData, setFormData] = useState(initialFormData);
   const [tableData, setTableData] = useState([]);
+  const [invoicedata, setInvoicedata] = useState([]);
+  const [projectdata, setProjectdata] = useState([]);
+  const [taxdata, settaxdata] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [editIndex, setEditIndex] = useState(null);
+  const [invoiceid, setinvoiceid] = React.useState("");
+  const [projectid, setprojectid] = React.useState("");
+  const [taxid, settaxid] = React.useState("");
+
+     
+  useEffect(() => {
+    getData();
+    getinvoice();
+    getproject();
+    gettax();
+  }, []);
+  const gettax = async () => {
+    try {
+      const response = await axios.get(`${base_url}/client/api/tax/`);
+      settaxdata(response.data);
+    } catch (err) {
+      console.error("Error fetching data:", err);
+    }
+  };
+  const getinvoice = async () => {
+    try {
+      const response = await axios.get(`${base_url}/client/invoice/`);
+      console.log(response.data);
+      setInvoicedata(response.data);
+    } catch (err) {
+      console.log(err);
+      console.error("Error fetching data:", err);
+    }
+  };
+  const getproject = async () => {
+    try {
+      const response = await axios.get(`${base_url}/client/project/`);
+      setProjectdata(response.data);
+      console.log(response.data,'#$%^##');
+    } catch (err) {
+      console.error("Error fetching data:", err);
+    }
+  };
+  const getData = async () => {
+    try {
+      const response = await axios.get(`${base_url}/client/invoice_item/`);
+      console.log(response.data);
+      setTableData(response.data);
+    } catch (err) {
+      console.log(err);
+      console.error("Error fetching data:", err);
+    }
+  };
+     
+  function postDataToServer(values) {
+    axios
+      .post(`${base_url}/client/invoice_item/`, formData)
+      .then((res) => {
+        console.log(res.data);
+        getData();
+        alert("Invoice Added Successfully");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  const updateDataToServer = async () => {
+    try {
+      await axios.put(
+        `${base_url}/client/invoice_item/`,formData
+      );
+      getData();
+      alert("Client updated Successfully");
+    } catch (err) {
+      console.error("Error updating client:", err);
+    }
+  };
+
+  const deleteDataFromServer = async (invoice_item_id) => {
+    try {
+      await axios.delete(
+        `${base_url}/client/invoice_item/?delete=${invoice_item_id}`
+      );
+      getData();
+      alert("Client deleted Successfully");
+    } catch (err) {
+      console.error("Error deleting client:", err);
+    }
+  };
+
+  const handleChangeClientDropdown = (event) => {
+    setinvoiceid(event.target.value);
+      setFormData({
+        ...formData,
+        invoice_id: + event.target.value,
+      });
+  };
+  const handleChangeProjectDropdown = (event) => {
+    setprojectid(event.target.value);
+      setFormData({
+        ...formData,
+        project_id: + event.target.value,
+      });
+  };
+  const handleChangeTaxDropdown = (event) => {
+    settaxid(event.target.value);
+      setFormData({
+        ...formData,
+        tax_id: + event.target.value,
+      });
+  };
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -41,11 +155,12 @@ function Project(props) {
 
   const handleSubmit = () => {
     if (editMode) {
-      
+      updateDataToServer();
       const updatedData = [...tableData];
       updatedData[editIndex] = formData;
       setTableData(updatedData);
     } else {
+      postDataToServer();
       setTableData([...tableData, formData]);
     }
     setFormData(initialFormData);
@@ -59,10 +174,8 @@ function Project(props) {
     setIsModalOpen(true);
   };
 
-  const handleDelete = (index) => {
-    const updatedData = [...tableData];
-    updatedData.splice(index, 1);
-    setTableData(updatedData);
+  const handleDelete = (invoice_item_id) => {
+    deleteDataFromServer(invoice_item_id);
   };
 
   return (
@@ -102,7 +215,27 @@ function Project(props) {
           <Typography id="modal-title" component="main" sx={{flexGrow:1}}>
             {editMode ? 'Edit Invoice' : 'Add Invoice'}
           </Typography>
-          <FormControl  sx={{margin:2}}>
+          <FormControl sx={{ margin: 2, width: 200 }}>
+            <InputLabel id="demo-simple-select-label">Invoice Id</InputLabel>
+            <Select
+              
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={invoiceid}
+              variant="standard"
+              label="Invoice Id"
+              onChange={handleChangeClientDropdown}
+            >
+              {invoicedata.map((row, index) => (
+                <MenuItem value={row.invoice_id}>{row.invoice_id}</MenuItem>
+              ))}
+              {/* <MenuItem value={20}>Facebook</MenuItem>
+          <MenuItem value={30}>Abu</MenuItem>
+          <MenuItem value={40}>Dnan</MenuItem>
+          <MenuItem value={50}>Netflix</MenuItem> */}
+            </Select>
+          </FormControl>
+          {/* <FormControl  sx={{margin:2}}>
             <InputLabel htmlFor="project-id">Invoice Id</InputLabel>
             <Input
               id="invoice-id"
@@ -110,8 +243,8 @@ function Project(props) {
               value={formData.invoice_id}
               onChange={handleChange}
             />
-          </FormControl>
-          <FormControl  sx={{margin:2}}>
+          </FormControl> */}
+          {/* <FormControl  sx={{margin:2}}>
             <InputLabel htmlFor="project_id">Project Id</InputLabel>
             <Input
               id="project-id"
@@ -119,7 +252,30 @@ function Project(props) {
               value={formData.project_id}
               onChange={handleChange}
             />
+          </FormControl> */}
+
+<FormControl sx={{ margin: 2, width: 200 }}>
+            <InputLabel id="demo-simple-select-label">Project Id</InputLabel>
+            <Select
+              
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={projectid}
+              variant="standard"
+              label="Invoice Id"
+              onChange={handleChangeProjectDropdown}
+            >
+              {projectdata.map((row, index) => (
+                console.log(row ,"******"),
+                <MenuItem value={row.project_id}>{row.project_id}</MenuItem>
+              ))}
+              {/* <MenuItem value={20}>Facebook</MenuItem>
+          <MenuItem value={30}>Abu</MenuItem>
+          <MenuItem value={40}>Dnan</MenuItem>
+          <MenuItem value={50}>Netflix</MenuItem> */}
+            </Select>
           </FormControl>
+
           <FormControl sx={{margin:2}}>
             <InputLabel htmlFor="client-id">Item Price</InputLabel>
             <Input
@@ -129,7 +285,7 @@ function Project(props) {
               onChange={handleChange}
             />
           </FormControl>
-          <FormControl sx={{margin:2}}>
+          {/* <FormControl sx={{margin:2}}>
             <InputLabel htmlFor="team-id">Tax Id</InputLabel>
             <Input
               id="tax-id"
@@ -137,6 +293,27 @@ function Project(props) {
               value={formData.tax_id}
               onChange={handleChange}
             />
+          </FormControl> */}
+
+<FormControl sx={{ margin: 2, width: 200 }}>
+            <InputLabel id="demo-simple-select-label">Tax Id</InputLabel>
+            <Select
+              
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={taxid}
+              variant="standard"
+              label="Invoice Id"
+              onChange={handleChangeTaxDropdown}
+            >
+              {taxdata.map((row, index) => (
+                <MenuItem value={row.tax_id}>{row.tax_name}</MenuItem>
+              ))}
+              {/* <MenuItem value={20}>Facebook</MenuItem>
+          <MenuItem value={30}>Abu</MenuItem>
+          <MenuItem value={40}>Dnan</MenuItem>
+          <MenuItem value={50}>Netflix</MenuItem> */}
+            </Select>
           </FormControl>
           <FormControl  sx={{margin:2}}>
             <InputLabel htmlFor="tech-id">Tax Amount</InputLabel>
@@ -182,7 +359,7 @@ function Project(props) {
                   <IconButton onClick={() => handleEdit(index)} aria-label="edit" sx={{ color: 'grey' }}>
                     <EditIcon />
                   </IconButton>
-                  <IconButton onClick={() => handleDelete(index)} aria-label="delete" sx={{ color: 'red' }}>
+                  <IconButton onClick={() => handleDelete(row.invoice_item_id)} aria-label="delete" sx={{ color: 'red' }}>
                     <DeleteIcon />
                   </IconButton>
                 </TableCell>

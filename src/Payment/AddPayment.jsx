@@ -3,6 +3,7 @@ import axios from "axios";
 import { Route, Routes } from "react-router-dom";
 import PaymentForm from "./PaymentForm";
 import PaymentTable from "./PaymentTable";
+import base_url from "../utils/API";
 
 export default function AddPayment() {
   let [data, setData] = useState([]);
@@ -16,7 +17,7 @@ export default function AddPayment() {
   function addData(data, editable) {
     if (editable) {
       axios
-        .put(`http://localhost:3000/payment/${edit.id}`, data, {
+        .put(`${base_url}/client/payment/?update_payment=${edit.payment_id}`, data, {
           headers: {
             "Content-Type": "application/json",
           },
@@ -31,7 +32,7 @@ export default function AddPayment() {
         });
     } else {
       axios
-        .post(`http://localhost:3000/payment/`, data, {
+        .post(`${base_url}/client/payment/`, data, {
           headers: {
             "Content-Type": "application/json",
           },
@@ -53,7 +54,7 @@ export default function AddPayment() {
 
   function deleteData(id) {
     axios
-      .delete(`http://localhost:3000/payment/${id}`)
+      .delete(`${base_url}/client/payment/?delete=${id}`)
       .then((response) => {
         fetchData();
         setData(data.filter((e) => e.id !== id));
@@ -65,7 +66,8 @@ export default function AddPayment() {
 
   async function fetchData() {
     try {
-      const response = await axios.get("http://localhost:3000/payment/");
+      const response = await axios.get(`${base_url}/client/payment/`);
+      console.log(response.data,'%^%^&^&^&');
       setData(response.data);
     } catch (error) {
       console.error("Error", error);

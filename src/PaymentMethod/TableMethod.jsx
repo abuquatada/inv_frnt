@@ -66,7 +66,7 @@ export default function TableMethod({ data, edit, dlt, setOpen }) {
                       "&:hover": { backgroundColor: "#dcf0e7" },
                     }}
                   >
-                    <TableCell sx={{ textAlign: "center" }}>{e.id}</TableCell>
+                    <TableCell sx={{ textAlign: "center" }}>{e.payment_method_id}</TableCell>
                     <TableCell sx={{ textAlign: "center" }}>
                       {e.payment_type}
                     </TableCell>

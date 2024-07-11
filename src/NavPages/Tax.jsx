@@ -82,18 +82,6 @@ function Tax(props) {
   return (
     <Box sx={{ display: 'block', p: 10, marginLeft:30 }}>
       <NavBar />
-      <Box sx={{display:'flex', justifyContent:'flex-end'}}>
-        <Button
-          
-          onClick={handleOpenModal}
-          size='medium'
-          variant='contained'
-          sx={{ color: 'white', backgroundColor: '#123270', borderRadius: 2, '&:hover': { color: 'black', backgroundColor: '#53B789' ,} }}
-        >
-          ADD
-        </Button>
-      </Box>
-
       <Modal
         open={isModalOpen}
         onClose={handleCloseModal}
@@ -152,7 +140,6 @@ function Tax(props) {
             <TableRow>
               <TableCell sx={{ color: 'white', textAlign: 'center' }}>Tax Name</TableCell>
               <TableCell sx={{ color: 'white', textAlign: 'center' }}>Tax Rate</TableCell>
-              <TableCell sx={{ color: 'white', textAlign: 'center' }}>Action</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -160,14 +147,6 @@ function Tax(props) {
               <TableRow key={row.tax_id} sx={{ m: 5, height:'3',backgroundColor: '#fff', '&:hover': { backgroundColor: '#dcf0e7' } }}>
                 <TableCell sx={{textAlign: 'center' }}>{row.tax_name}</TableCell>
                 <TableCell sx={{textAlign: 'center' }}>{row.rate}%</TableCell>
-                <TableCell sx={{textAlign: 'center' }}>
-                  <IconButton onClick={() => handleEdit(row.tax_id)} aria-label="edit" sx={{ color: 'grey' }}>
-                    <EditIcon />
-                  </IconButton>
-                  <IconButton onClick={() => handleDelete(row.tax_id)} aria-label="delete" sx={{ color: 'red' }}>
-                    <DeleteIcon />
-                  </IconButton>
-                </TableCell>
               </TableRow>
             ))}
           </TableBody>

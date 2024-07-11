@@ -3,6 +3,8 @@ import Form from "./Form";
 import { Routes, Route } from "react-router-dom";
 import TableMethod from "./TableMethod";
 import axios from "axios";
+import base_url from "../utils/API";
+
 export default function PayMethod() {
   let [data, setdata] = useState([]);
   let [edit, setEdit] = useState({});
@@ -14,7 +16,7 @@ export default function PayMethod() {
   function addData(data, editable) {
     if (editable) {
       axios
-        .put(`http://localhost:3000/Paymethod/${edit.id}`, data, {
+        .put(`${base_url}/client/payment_method/${edit.payment_method_id}`, data, {
           headers: {
             "Content-Type": "application/json",
           },
@@ -28,7 +30,7 @@ export default function PayMethod() {
           console.log("error");
         });
     } else {
-      axios.post(`http://localhost:3000/Paymethod/`, data,{
+      axios.post(`${base_url}/client/payment_method/`, data,{
         headers:{
           "Content-Type":"application/json",
         }
@@ -59,8 +61,9 @@ export default function PayMethod() {
   }
   async function fetchData() {
     try {
-      const response = await axios.get(`http://localhost:3000/Paymethod/`);
+      const response = await axios.get(`${base_url}/client/api/payment_method/`);
       setdata(response.data);
+      console.log(response.data,'&^&*');
     } catch (error) {
       console.log("error");
     }

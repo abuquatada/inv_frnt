@@ -37,7 +37,7 @@ export default function PaymentTable({ data, edit, dlt, setOpen }) {
             <TableBody>
               {data && data.map((e, index) => (
                 <TableRow key={index} sx={{ m: 5, height: '3', backgroundColor: '#fff', '&:hover': { backgroundColor: '#dcf0ef' } }}>
-                  <TableCell sx={{ textAlign: 'center' }}>{e.id}</TableCell>
+                  <TableCell sx={{ textAlign: 'center' }}>{e.payment_id}</TableCell>
                   <TableCell sx={{ textAlign: 'center' }}>{e.invoice_id}</TableCell>
                   <TableCell sx={{ textAlign: 'center' }}>{e.method_id}</TableCell>
                   <TableCell sx={{ textAlign: 'center' }}>${e.amount}</TableCell>
@@ -46,7 +46,7 @@ export default function PaymentTable({ data, edit, dlt, setOpen }) {
                     <IconButton onClick={() => edit(e)} aria-label="edit" sx={{ color: 'grey' }}>
                       <EditIcon />
                     </IconButton>
-                    <IconButton onClick={() => dlt(e.id)} aria-label="delete" sx={{ color: 'red' }}>
+                    <IconButton onClick={() => dlt(e.payment_id)} aria-label="delete" sx={{ color: 'red' }}>
                       <DeleteIcon />
                     </IconButton>
                   </TableCell>

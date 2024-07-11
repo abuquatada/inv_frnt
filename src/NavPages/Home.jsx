@@ -90,7 +90,7 @@ function Home(props) {
   const getData = async () => {
     try {
       const response = await axios.get(`${base_url}/client/chart/`);
-      console.log(response.data.total_amount);
+      console.log(response.data);
       setTableData(response.data);
     } catch (err) {
       console.error("Error fetching data:", err);
@@ -146,8 +146,8 @@ function Home(props) {
           <Plot
             data={[
               {
-                labels: tableData.due_date,
-                values: tableData.total_amount,
+                labels: tableData.tech_count_name,
+                values: tableData.tech_count_num,
                 type: "pie",
               },
             ]}
