@@ -17,14 +17,14 @@ import {
   Modal,
   Select,
   MenuItem,
-  Checkbox,
-  ListItemText,
+  Chip,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import NavBar from "../NavBar";
 import axios from "axios";
 import base_url from "../utils/API";
+import ReactSelect from "react-select";
 
 const Project = (props) => {
   const initialFormData = {
@@ -34,7 +34,7 @@ const Project = (props) => {
     team_id: "",
     tech_id: [],
   };
-
+  const [tech_id, settech_id] = useState([]);
   const [formData, setFormData] = useState(initialFormData);
   const [tableData, setTableData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -84,7 +84,6 @@ const Project = (props) => {
   const fetchTechOptions = async () => {
     try {
       const response = await axios.get(`${base_url}/client/api/technology/`);
-      console.log(response.data, "111111111");
       setTechOptions(
         response.data.map((tech) => ({
           value: tech.tech_id,
@@ -98,7 +97,11 @@ const Project = (props) => {
 
   const postDataToServer = async () => {
     try {
-      await axios.post(`${base_url}/client/project/`, formData);
+      const newFormData = {
+        ...formData,
+        tech_id: tech_id.map((tech) => tech.value),
+      };
+      await axios.post(`${base_url}/client/project/`, newFormData);
       getData();
       alert("Project Added Successfully");
     } catch (err) {
@@ -110,11 +113,7 @@ const Project = (props) => {
     try {
       const updatedFormData = {
         ...formData,
-        tech_id: formData.tech_id.map((tech) =>
-          typeof tech === "string"
-            ? techOptions.find((option) => option.label === tech).value
-            : tech
-        ),
+        tech_id: tech_id.map((tech) => tech.value),
       };
       await axios.put(`${base_url}/client/project/`, updatedFormData);
       getData();
@@ -138,12 +137,14 @@ const Project = (props) => {
     setIsModalOpen(true);
     setEditMode(false);
     setFormData(initialFormData);
+    settech_id([]);
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setEditMode(false);
     setFormData(initialFormData);
+    settech_id([]);
   };
 
   const handleChange = (e) => {
@@ -154,13 +155,11 @@ const Project = (props) => {
     });
   };
 
-  const handleTechChange = (event) => {
-    const {
-      target: { value },
-    } = event;
+  const handleTechChange = (selectedOptions) => {
+    settech_id(selectedOptions);
     setFormData({
       ...formData,
-      tech_id: typeof value === "string" ? value.split(",") : value,
+      tech_id: selectedOptions,
     });
   };
 
@@ -195,7 +194,12 @@ const Project = (props) => {
   };
 
   const handleEdit = (index) => {
-    setFormData(tableData[index]);
+    const project = tableData[index];
+    const selectedTech = project.tech_id.map((id) =>
+      techOptions.find((option) => option.value === id)
+    );
+    setFormData(project);
+    settech_id(selectedTech);
     setEditMode(true);
     setEditIndex(index);
     setIsModalOpen(true);
@@ -301,80 +305,98 @@ const Project = (props) => {
             </Select>
           </FormControl>
           <FormControl sx={{ margin: 2, width: 200 }}>
-            <InputLabel htmlFor="tech-id">Tech Id</InputLabel>
-            <Select
-              labelId="tech-id-label"
-              id="tech-id"
-              label="tech_id"
-              multiple
-              value={formData.tech_id}
+            <InputLabel htmlFor="tech-id">Technologies</InputLabel>
+
+            <ReactSelect
+              isMulti
+              name="tech_id"
+              id="tech_id"
+              options={techOptions}
+              value={tech_id}
               onChange={handleTechChange}
-              renderValue={(selected) =>
-                selected
-                  .map((techId) => {
-                    const tech = techOptions.find(
-                      (option) => option.value === techId
-                    );
-                    return tech ? tech.label : techId;
-                  })
-                  .join(", ")
-              }
-            >
-              {techOptions.map((tech) => (
-                <MenuItem key={tech.value} value={tech.value}>
-                  <Checkbox checked={formData.tech_id.includes(tech.value)} />
-                  <ListItemText primary={tech.label} />
-                </MenuItem>
-              ))}
-            </Select>
+            />
           </FormControl>
-          <Box sx={{ margin: 2, display: "flex", justifyContent: "flex-end" }}>
+          <Box
+            sx={{
+              margin: 2,
+              display: "flex",
+              justifyContent: "space-between",
+              mt: 2,
+            }}
+          >
             <Button
               onClick={handleSubmit}
               size="large"
               variant="contained"
-              sx={{
-                color: "white",
-                backgroundColor: "#123270",
-                borderRadius: 2,
-                "&:hover": { color: "black", backgroundColor: "#53B789" },
-              }}
+              color="success"
             >
               {editMode ? "Update" : "Add"}
             </Button>
           </Box>
         </Box>
       </Modal>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
+      <TableContainer component={Paper} sx={{ marginTop: 5 }}>
+        <Table>
+          <TableHead sx={{ m: 5, backgroundColor: "#53B789" }}>
             <TableRow>
-              <TableCell>Project Name</TableCell>
-              <TableCell>Duration</TableCell>
-              <TableCell>Client Name</TableCell>
-              <TableCell>Team Name</TableCell>
-              <TableCell>Tech Name</TableCell>
-              <TableCell>Action</TableCell>
+              <TableCell sx={{ color: "white", textAlign: "center" }}>
+                Project Name
+              </TableCell>
+              <TableCell sx={{ color: "white", textAlign: "center" }}>
+                Duration
+              </TableCell>
+              <TableCell sx={{ color: "white", textAlign: "center" }}>
+                Client Name
+              </TableCell>
+              <TableCell sx={{ color: "white", textAlign: "center" }}>
+                Team Name
+              </TableCell>
+              <TableCell sx={{ color: "white", textAlign: "center" }}>
+                Tech Name
+              </TableCell>
+              <TableCell sx={{ color: "white", textAlign: "center" }}>
+                Action
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {tableData.map((row, index) => (
-              <TableRow key={index}>
-                <TableCell>{row.project_name}</TableCell>
-                <TableCell>{row.duration}</TableCell>
-                <TableCell>{row.client_name}</TableCell>
-                <TableCell>{row.team_name}</TableCell>
-                <TableCell>{row.tech_id.join(", ")}</TableCell>
-                <TableCell>
+              <TableRow
+                key={index}
+                sx={{
+                  m: 5,
+                  height: "3",
+                  backgroundColor: "#fff",
+                  "&:hover": { backgroundColor: "#dcf0e7" },
+                }}
+              >
+                <TableCell sx={{ textAlign: "center" }}>
+                  {row.project_name}
+                </TableCell>
+                <TableCell sx={{ textAlign: "center" }}>
+                  {row.duration}
+                </TableCell>
+                <TableCell sx={{ textAlign: "center" }}>
+                  {row.client_name}
+                </TableCell>
+                <TableCell sx={{ textAlign: "center" }}>
+                  {row.team_name}
+                </TableCell>
+                <TableCell sx={{ textAlign: "center" }}>
+                  {row.tech_id.join(", ")}
+                </TableCell>
+                <TableCell sx={{ textAlign: "center" }}>
                   <IconButton
                     aria-label="edit"
                     onClick={() => handleEdit(index)}
+                    sx={{ color: "grey" }}
                   >
                     <EditIcon />
                   </IconButton>
                   <IconButton
                     aria-label="delete"
                     onClick={() => handleDelete(row.project_id)}
+                    sx={{ color: "red" }}
                   >
                     <DeleteIcon />
                   </IconButton>
