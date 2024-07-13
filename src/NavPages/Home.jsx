@@ -31,7 +31,7 @@ function Home(props) {
           <Plot
             data={[
               {
-                x: tableData.due_date,
+                x: tableData.due,
                 y: tableData.total_amount,
                 type: "bar",
                 mode: "lines+markers",

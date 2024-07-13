@@ -84,6 +84,26 @@ function Project(props) {
       });
   }
 
+  const updateDataToServer = async () => {
+    try {
+      await axios.put(`${base_url}/client/invoice/`, formData);
+      getData();
+      alert("Invoice updated Successfully");
+    } catch (err) {
+      console.error("Error updating client:", err);
+    }
+  };
+
+  const deleteDataFromServer = async (invoice_id) => {
+    try {
+      await axios.delete(`${base_url}/client/invoice/?delete=${invoice_id}`);
+      getData();
+      alert("Client deleted Successfully");
+    } catch (err) {
+      console.error("Error deleting client:", err);
+    }
+  };
+
   const handleOpenModal = () => {
     setIsModalOpen(true);
     setEditMode(false);
@@ -114,6 +134,7 @@ function Project(props) {
 
   const handleSubmit = () => {
     if (editMode) {
+      updateDataToServer();
       const updatedData = [...tableData];
       updatedData[editIndex] = formData;
       setTableData(updatedData);
@@ -142,10 +163,8 @@ function Project(props) {
     }
   };
 
-  const handleDelete = (index) => {
-    const updatedData = [...tableData];
-    updatedData.splice(index, 1);
-    setTableData(updatedData);
+  const handleDelete = (invoice_id) => {
+    deleteDataFromServer(invoice_id);
   };
 
   const handleInvoiceClick = (id) => {
@@ -419,7 +438,7 @@ function Project(props) {
                     {row.invoice_id}
                   </TableCell>
                   <TableCell sx={{ textAlign: "center" }}>
-                    {row.client_id?.client_name}
+                    {row.client_name}
                   </TableCell>
                   <TableCell sx={{ textAlign: "center" }}>
                     {row.due_date}
@@ -439,7 +458,7 @@ function Project(props) {
                       <EditIcon />
                     </IconButton>
                     <IconButton
-                      onClick={() => handleDelete(index)}
+                      onClick={() => handleDelete(row.invoice_id)}
                       aria-label="delete"
                       sx={{ color: "red" }}
                     >
