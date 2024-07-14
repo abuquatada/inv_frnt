@@ -24,9 +24,9 @@ import jsPDF from "jspdf";
 import "jspdf-autotable";
 import axios from "axios";
 import base_url from "../utils/API";
-
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
+import ReactSelect from "react-select";
 
 function Project(props) {
   const initialFormData = {
@@ -34,6 +34,7 @@ function Project(props) {
     due_date: "",
     total_amount: "",
     status: "",
+    invoice_item_id: [],
   };
 
   const [formData, setFormData] = useState(initialFormData);
@@ -46,10 +47,13 @@ function Project(props) {
   const [isInvoiceModalOpen, setIsInvoiceModalOpen] = useState(false);
   const [search, setSearch] = useState("");
   const [client_id, setclient_id] = React.useState("");
+  const [invoice_item_id, setinvoice_item_id] = useState([]);
+  const [invoice_options, setinvoice_options] = useState([]);
 
   useEffect(() => {
     getData();
     getclient();
+    getinvoiceitem();
   }, []);
 
   const getclient = async () => {
@@ -60,6 +64,22 @@ function Project(props) {
       console.error("Error fetching data:", err);
     }
   };
+
+  const getinvoiceitem = async () => {
+    try {
+      const response = await axios.get(`${base_url}/client/invoice_item/`);
+      console.log(response.data);
+      setinvoice_options(
+        response.data.map((inv) => ({
+          value: inv.invoice_item_id,
+          label: inv.project_name,
+        }))
+      );
+    } catch (err) {
+      console.error("Error fetching tech options:", err);
+    }
+  };
+
   const getData = async () => {
     try {
       const response = await axios.get(`${base_url}/client/invoice/`);
@@ -71,22 +91,34 @@ function Project(props) {
     }
   };
 
-  function postDataToServer(values) {
-    axios
-      .post(`${base_url}/client/invoice/`, formData)
-      .then((res) => {
-        console.log(res.data);
-        getData();
-        alert("Invoice Added Successfully");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  function postDataToServer() {
+    try {
+      const newFormData = {
+        ...formData,
+        invoice_item_id: invoice_item_id.map((inv_item) => inv_item.value),
+      };
+      axios
+        .post(`${base_url}/client/invoice/`, newFormData)
+        .then((res) => {
+          console.log(res.data);
+          getData();
+          alert("Invoice Added Successfully");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } catch (err) {
+      console.error("Error adding project:", err);
+    }
   }
 
   const updateDataToServer = async () => {
     try {
-      await axios.put(`${base_url}/client/invoice/`, formData);
+      const updatedFormData = {
+        ...formData,
+        invoice_item_id: invoice_item_id.map((inv) => inv.value),
+      };
+      await axios.put(`${base_url}/client/invoice/`, updatedFormData);
       getData();
       alert("Invoice updated Successfully");
     } catch (err) {
@@ -108,12 +140,14 @@ function Project(props) {
     setIsModalOpen(true);
     setEditMode(false);
     setFormData(initialFormData);
+    setinvoice_item_id([]);
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setEditMode(false);
     setFormData(initialFormData);
+    setinvoice_item_id([]);
   };
 
   const handleChangeClientDropdown = (event) => {
@@ -132,6 +166,14 @@ function Project(props) {
     });
   };
 
+  const handleTechChange = (selectedOptions) => {
+    setinvoice_item_id(selectedOptions);
+    setFormData({
+      ...formData,
+      invoice_item_id: selectedOptions,
+    });
+  };
+
   const handleSubmit = () => {
     if (editMode) {
       updateDataToServer();
@@ -147,7 +189,12 @@ function Project(props) {
   };
 
   const handleEdit = (index) => {
-    setFormData(tableData[index]);
+    const invoice = tableData[index];
+    const selecteditem = invoice.invoice_item_id.map((id) =>
+      invoice_options.find((option) => option.value === id)
+    );
+    setFormData(invoice);
+    setinvoice_item_id(selecteditem);
     setEditMode(true);
     setEditIndex(index);
     setIsModalOpen(true);
@@ -377,7 +424,22 @@ function Project(props) {
               onChange={handleChange}
             />
           </FormControl>
-
+          <FormControl
+            sx={{
+              margin: 2,
+              width: 200,
+            }}
+          >
+            <label>Invoice Item</label>
+            <ReactSelect
+              isMulti
+              name="invoice_item_id"
+              id="invoice_item_id"
+              options={invoice_options}
+              value={invoice_item_id}
+              onChange={handleTechChange}
+            />
+          </FormControl>
           <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
             <Button variant="contained" color="success" onClick={handleSubmit}>
               {editMode ? "Update" : "Save"}

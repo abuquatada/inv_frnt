@@ -25,7 +25,6 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 function Project(props) {
   const initialFormData = {
-    invoice_id: "",
     project_id: "",
     item_price: "",
     tax_id: "",
@@ -34,19 +33,16 @@ function Project(props) {
 
   const [formData, setFormData] = useState(initialFormData);
   const [tableData, setTableData] = useState([]);
-  const [invoicedata, setInvoicedata] = useState([]);
   const [projectdata, setProjectdata] = useState([]);
   const [taxdata, settaxdata] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [editIndex, setEditIndex] = useState(null);
-  const [invoiceid, setinvoiceid] = React.useState("");
   const [projectid, setprojectid] = React.useState("");
   const [taxid, settaxid] = React.useState("");
 
   useEffect(() => {
     getData();
-    getinvoice();
     getproject();
     gettax();
   }, []);
@@ -58,16 +54,7 @@ function Project(props) {
       console.error("Error fetching data:", err);
     }
   };
-  const getinvoice = async () => {
-    try {
-      const response = await axios.get(`${base_url}/client/invoice/`);
-      console.log(response.data);
-      setInvoicedata(response.data);
-    } catch (err) {
-      console.log(err);
-      console.error("Error fetching data:", err);
-    }
-  };
+
   const getproject = async () => {
     try {
       const response = await axios.get(`${base_url}/client/project/`);
@@ -123,13 +110,6 @@ function Project(props) {
     }
   };
 
-  const handleChangeClientDropdown = (event) => {
-    setinvoiceid(event.target.value);
-    setFormData({
-      ...formData,
-      invoice_id: +event.target.value,
-    });
-  };
   const handleChangeProjectDropdown = (event) => {
     setprojectid(event.target.value);
     setFormData({
@@ -233,21 +213,6 @@ function Project(props) {
           <Typography id="modal-title" component="main" sx={{ flexGrow: 1 }}>
             {editMode ? "Edit Invoice" : "Add Invoice"}
           </Typography>
-          <FormControl sx={{ margin: 2, width: 200 }}>
-            <InputLabel id="demo-simple-select-label">Invoice Id</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={invoiceid}
-              variant="standard"
-              label="Invoice Id"
-              onChange={handleChangeClientDropdown}
-            >
-              {invoicedata.map((row, index) => (
-                <MenuItem value={row.invoice_id}>{row.invoice_id}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
 
           <FormControl sx={{ margin: 2, width: 200 }}>
             <InputLabel id="demo-simple-select-label">Project Id</InputLabel>
@@ -260,7 +225,7 @@ function Project(props) {
               onChange={handleChangeProjectDropdown}
             >
               {projectdata.map((row, index) => (
-                <MenuItem value={row.project_id}>{row.project_id}</MenuItem>
+                <MenuItem value={row.project_id}>{row.project_name}</MenuItem>
               ))}
             </Select>
           </FormControl>
@@ -318,16 +283,13 @@ function Project(props) {
           <TableHead sx={{ m: 5, backgroundColor: "#53B789" }}>
             <TableRow>
               <TableCell sx={{ color: "white", textAlign: "center" }}>
-                Invoice Id
-              </TableCell>
-              <TableCell sx={{ color: "white", textAlign: "center" }}>
-                Project Id
+                Project Name
               </TableCell>
               <TableCell sx={{ color: "white", textAlign: "center" }}>
                 Item Price
               </TableCell>
               <TableCell sx={{ color: "white", textAlign: "center" }}>
-                Tax Id
+                Tax{" "}
               </TableCell>
               <TableCell sx={{ color: "white", textAlign: "center" }}>
                 Tax Amount
@@ -349,15 +311,14 @@ function Project(props) {
                 }}
               >
                 <TableCell sx={{ textAlign: "center" }}>
-                  {row.invoice_id}
-                </TableCell>
-                <TableCell sx={{ textAlign: "center" }}>
-                  {row.project_id}
+                  {row.project_name}
                 </TableCell>
                 <TableCell sx={{ textAlign: "center" }}>
                   {row.item_price}
                 </TableCell>
-                <TableCell sx={{ textAlign: "center" }}>{row.tax_id}</TableCell>
+                <TableCell sx={{ textAlign: "center" }}>
+                  {row.tax_name}-{row.tax_rate}%
+                </TableCell>
                 <TableCell sx={{ textAlign: "center" }}>
                   {row.tax_amount}
                 </TableCell>

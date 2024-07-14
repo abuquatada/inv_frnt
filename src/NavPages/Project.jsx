@@ -34,12 +34,12 @@ const Project = (props) => {
     team_id: "",
     tech_id: [],
   };
-  const [tech_id, settech_id] = useState([]);
   const [formData, setFormData] = useState(initialFormData);
   const [tableData, setTableData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [editIndex, setEditIndex] = useState(null);
+  const [tech_id, settech_id] = useState([]);
   const [techOptions, setTechOptions] = useState([]);
   const [client, setClient] = useState([]);
   const [team, setTeam] = useState([]);
@@ -116,8 +116,8 @@ const Project = (props) => {
         tech_id: tech_id.map((tech) => tech.value),
       };
       await axios.put(`${base_url}/client/project/`, updatedFormData);
-      getData();
       alert("Project updated Successfully");
+      getData();
     } catch (err) {
       console.error("Error updating project:", err);
     }
@@ -304,9 +304,13 @@ const Project = (props) => {
               ))}
             </Select>
           </FormControl>
-          <FormControl sx={{ margin: 2, width: 200 }}>
-            <InputLabel htmlFor="tech-id">Technologies</InputLabel>
-
+          <FormControl
+            sx={{
+              margin: 2,
+              width: 200,
+            }}
+          >
+            <label>Technologies</label>
             <ReactSelect
               isMulti
               name="tech_id"

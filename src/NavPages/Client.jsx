@@ -60,8 +60,8 @@ function Project(props) {
   const postDataToServer = async () => {
     try {
       await axios.post(`${base_url}/client/client/`, formData);
-      getData();
       alert("Client Added Successfully");
+      getData();
     } catch (err) {
       console.error("Error adding client:", err);
     }
@@ -74,8 +74,8 @@ function Project(props) {
         `${base_url}/client/client/?client_update=${client_id}`,
         updateData
       );
-      getData();
       alert("Client updated Successfully");
+      getData();
     } catch (err) {
       console.error("Error updating client:", err);
     }
